@@ -169,7 +169,8 @@ func toggle_reference_display():
 	if Globals.display_reference:
 		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x + 300, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
-		reference_container.show()
+		if Globals.game_in_progress:
+			reference_container.show()
 		if Globals.game_in_progress:
 			reference.texture = picture_container.get_child(0).sprite.texture
 	else:
