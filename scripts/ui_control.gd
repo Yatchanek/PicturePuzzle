@@ -11,6 +11,11 @@ onready var music_volume_slider = $Settings/TabContainer/Audio/MarginContainer/G
 onready var fullscreen_button = $Settings/TabContainer/Video/MarginContainer/GridContainer/FullscreenModeButton
 onready var time_label = $TimeLabelContainer/TimeLabel
 onready var title_screen = $TitleScreen
+onready var next_quit_buttons = $NextQuitButtonContainer
+onready var reference_container = $ReferenceContainer
+
+signal next_picture
+signal quit_to_menu
 
 func update_time_label(minutes, seconds):
 	time_label.text = "%02d:%02d" % [minutes, seconds]
@@ -75,5 +80,12 @@ func _on_Settings_about_to_show():
 	fullscreen_button.pressed = OS.is_window_fullscreen() 
 
 
+func _on_NextButton_pressed():
+	emit_signal("next_picture")
+	next_quit_buttons.hide()
 
-
+func _on_QuitButton_pressed():
+	emit_signal("quit_to_menu")
+	next_quit_buttons.hide()
+	reference_container.hide()
+	title_screen.show()

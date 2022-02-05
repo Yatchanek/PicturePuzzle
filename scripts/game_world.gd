@@ -62,6 +62,8 @@ func _unhandled_input(event):
 func _ready():
 	Globals.connect("start_game", self, "load_picture")
 	Globals.connect("reference_display_toggled", self, "toggle_reference_display")
+	hud.connect("next_picture", self, "_on_NextPictureButton_pressed")
+	hud.connect("quit_to_menu", self, "_on_QuitButton_pressed")
 	connect("game_started", Globals, "_on_Game_started")
 	connect("game_ended", Globals, "_on_Game_ended")
 	can_move = false
@@ -223,5 +225,3 @@ func _on_QuitButton_pressed():
 	for button in get_tree().get_nodes_in_group("NextQuitButtons"):
 		button.disabled = true
 	clear_board()
-	reference_container.hide()
-	hud.title_screen.show()

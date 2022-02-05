@@ -563,6 +563,7 @@ alignment = 1
 [node name="NextButton" type="Button" parent="UIControl/NextQuitButtonContainer/HBoxContainer" groups=["NextQuitButtons"]]
 margin_right = 174.0
 margin_bottom = 49.0
+mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 12 )
 text = "Next picture"
 
@@ -570,6 +571,7 @@ text = "Next picture"
 margin_left = 224.0
 margin_right = 285.0
 margin_bottom = 49.0
+mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 12 )
 text = "Quit"
 
@@ -587,3 +589,5 @@ text = "Quit"
 [connection signal="value_changed" from="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer2/SFXVolumeSlider" to="UIControl" method="_on_SFXVolumeSlider_value_changed"]
 [connection signal="value_changed" from="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3/MusicVolumeSlider" to="UIControl" method="_on_MusicVolumeSlider_value_changed"]
 [connection signal="pressed" from="UIControl/Settings/TabContainer/Audio/Button" to="UIControl" method="_on_Button_pressed"]
+[connection signal="pressed" from="UIControl/NextQuitButtonContainer/HBoxContainer/NextButton" to="UIControl" method="_on_NextButton_pressed"]
+[connection signal="pressed" from="UIControl/NextQuitButtonContainer/HBoxContainer/QuitButton" to="UIControl" method="_on_QuitButton_pressed"]
