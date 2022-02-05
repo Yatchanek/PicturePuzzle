@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "TileMap",
+"class": "Grid",
+"language": "GDScript",
+"path": "res://scripts/grid.gd"
+} ]
+_global_script_class_icons={
+"Grid": ""
+}
+
+[application]
+
+config/name="Picture Puzzle Game"
+run/main_scene="res://scenes/game_world.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://scripts/globals.gd"
+Sounds="*res://scenes/sounds.tscn"
+
+[display]
+
+window/size/width=1600
+window/size/height=900
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"

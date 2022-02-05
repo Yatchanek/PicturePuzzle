@@ -1,0 +1,589 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://assets/fonts/font_42.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/fonts/font_24.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/ui/signal3.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/musicOff.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/musicOn.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/signal1.png" type="Texture" id=6]
+[ext_resource path="res://assets/misc/ui_theme.tres" type="Theme" id=7]
+[ext_resource path="res://assets/ui/audioOn.png" type="Texture" id=8]
+[ext_resource path="res://assets/fonts/Kanit-Regular.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://assets/ui/audioOff.png" type="Texture" id=10]
+[ext_resource path="res://scripts/ui_control.gd" type="Script" id=11]
+[ext_resource path="res://assets/fonts/font_32.tres" type="DynamicFont" id=12]
+[ext_resource path="res://assets/fonts/font_50.tres" type="DynamicFont" id=13]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+use_filter = true
+font_data = ExtResource( 9 )
+
+[node name="HUD" type="CanvasLayer"]
+layer = 0
+
+[node name="UIControl" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 7 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleScreen" type="Control" parent="UIControl"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="UIControl/TitleScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.0823529, 0.0784314, 0.121569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="UIControl/TitleScreen"]
+anchor_bottom = 1.0
+margin_right = 62.0
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIControl/TitleScreen/MarginContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 300.0
+margin_bottom = 850.0
+custom_constants/separation = 50
+alignment = 1
+
+[node name="StartGameButton" type="Button" parent="UIControl/TitleScreen/MarginContainer/VBoxContainer"]
+margin_top = 305.0
+margin_right = 250.0
+margin_bottom = 380.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 13 )
+text = "Start Game"
+
+[node name="SettingsButton" type="Button" parent="UIControl/TitleScreen/MarginContainer/VBoxContainer"]
+margin_top = 430.0
+margin_right = 250.0
+margin_bottom = 494.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 1 )
+text = "Settings"
+
+[node name="Settings" type="Popup" parent="UIControl"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -350.0
+margin_right = 500.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 1000, 700 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="UIControl/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 2 )
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gameplay" type="Tabs" parent="UIControl/Settings/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 48.0
+margin_right = -1.0
+margin_bottom = -1.0
+tab_align = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIControl/Settings/TabContainer/Gameplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 978.0
+margin_bottom = 631.0
+custom_constants/vseparation = 20
+columns = 2
+
+[node name="GridSizeLabel2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_right = 476.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 1 )
+text = "Grid size"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_left = 714.0
+margin_right = 958.0
+margin_bottom = 64.0
+size_flags_horizontal = 10
+
+[node name="Label" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer"]
+margin_top = 13.0
+margin_right = 12.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 1 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridSizeSlider" type="HSlider" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 16.0
+margin_right = 216.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+mouse_default_cursor_shape = 2
+size_flags_vertical = 1
+min_value = 3.0
+max_value = 10.0
+value = 4.0
+tick_count = 8
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 220.0
+margin_top = 13.0
+margin_right = 244.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HintDisplayLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 84.0
+margin_right = 476.0
+margin_bottom = 148.0
+custom_fonts/font = ExtResource( 1 )
+text = "Display number hints"
+
+[node name="HintDisplayButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_left = 888.0
+margin_top = 84.0
+margin_right = 958.0
+margin_bottom = 148.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+
+[node name="ReferenceDisplayLabel2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 168.0
+margin_right = 476.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 1 )
+text = "Display reference picture"
+
+[node name="ReferenceDisplayButton2" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_left = 888.0
+margin_top = 168.0
+margin_right = 958.0
+margin_bottom = 232.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+
+[node name="RotationLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 252.0
+margin_right = 476.0
+margin_bottom = 316.0
+custom_fonts/font = ExtResource( 1 )
+text = "Enable tile rotation"
+
+[node name="RotationButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_left = 888.0
+margin_top = 252.0
+margin_right = 958.0
+margin_bottom = 316.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+
+[node name="Button" type="Button" parent="UIControl/Settings/TabContainer/Gameplay"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -498.0
+margin_top = -93.0
+margin_right = 498.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 1 )
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Video" type="Tabs" parent="UIControl/Settings/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 48.0
+margin_right = -1.0
+margin_bottom = -1.0
+tab_align = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIControl/Settings/TabContainer/Video"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 18.0
+margin_top = 3.0
+margin_right = 18.0
+margin_bottom = 3.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="UIControl/Settings/TabContainer/Video/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 978.0
+margin_bottom = 631.0
+custom_constants/vseparation = 20
+columns = 2
+
+[node name="FullscreenModeLabel" type="Label" parent="UIControl/Settings/TabContainer/Video/MarginContainer/GridContainer"]
+margin_right = 311.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 1 )
+text = "Fullscreen mode"
+
+[node name="FullscreenModeButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Video/MarginContainer/GridContainer"]
+margin_left = 894.0
+margin_right = 958.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+
+[node name="Button" type="Button" parent="UIControl/Settings/TabContainer/Video"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -27.0
+margin_top = -93.0
+margin_right = 28.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 1 )
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Audio" type="Tabs" parent="UIControl/Settings/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 48.0
+margin_right = -1.0
+margin_bottom = -1.0
+tab_align = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIControl/Settings/TabContainer/Audio"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="UIControl/Settings/TabContainer/Audio/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 978.0
+margin_bottom = 631.0
+custom_constants/vseparation = 20
+columns = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_right = 280.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 1 )
+text = "Master volume"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_left = 670.0
+margin_right = 958.0
+margin_bottom = 64.0
+size_flags_horizontal = 10
+
+[node name="Label" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
+[node name="MasterVolumeSlider" type="HSlider" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 44.0
+margin_right = 244.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+mouse_default_cursor_shape = 2
+size_flags_vertical = 1
+min_value = -40.0
+max_value = 40.0
+step = 10.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="Label2" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 248.0
+margin_right = 288.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="SFXVolumeLabel" type="Label" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_top = 84.0
+margin_right = 280.0
+margin_bottom = 148.0
+custom_fonts/font = ExtResource( 1 )
+text = "SFX volume"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_left = 670.0
+margin_top = 84.0
+margin_right = 958.0
+margin_bottom = 148.0
+size_flags_horizontal = 10
+
+[node name="Label" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer2"]
+margin_right = 40.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="SFXVolumeSlider" type="HSlider" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer2"]
+margin_left = 44.0
+margin_right = 244.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+mouse_default_cursor_shape = 2
+size_flags_vertical = 1
+min_value = -40.0
+max_value = 40.0
+step = 10.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="Label2" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer2"]
+margin_left = 248.0
+margin_right = 288.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+
+[node name="MusicVolumeLabel" type="Label" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_top = 168.0
+margin_right = 280.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 1 )
+text = "Music volume"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer"]
+margin_left = 670.0
+margin_top = 168.0
+margin_right = 958.0
+margin_bottom = 232.0
+size_flags_horizontal = 10
+
+[node name="Label" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3"]
+margin_right = 40.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="MusicVolumeSlider" type="HSlider" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3"]
+margin_left = 44.0
+margin_right = 244.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+mouse_default_cursor_shape = 2
+size_flags_vertical = 1
+min_value = -40.0
+max_value = 40.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="Label2" type="TextureRect" parent="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3"]
+margin_left = 248.0
+margin_right = 288.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 30 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="Button" type="Button" parent="UIControl/Settings/TabContainer/Audio"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -27.0
+margin_top = -93.0
+margin_right = 28.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 1 )
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLabelContainer" type="MarginContainer" parent="UIControl"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1600.0
+margin_top = -900.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLabel" type="Label" parent="UIControl/TimeLabelContainer"]
+margin_left = 1464.0
+margin_top = 816.0
+margin_right = 1580.0
+margin_bottom = 880.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 1 )
+text = "00:00"
+
+[node name="ReferenceContainer" type="MarginContainer" parent="UIControl"]
+visible = false
+anchor_bottom = 1.0
+margin_right = 480.0
+mouse_filter = 2
+custom_constants/margin_left = 80
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIControl/ReferenceContainer"]
+margin_left = 80.0
+margin_right = 480.0
+margin_bottom = 900.0
+alignment = 1
+
+[node name="Label" type="Label" parent="UIControl/ReferenceContainer/VBoxContainer"]
+margin_top = 216.0
+margin_right = 400.0
+margin_bottom = 280.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "Target picture"
+align = 1
+
+[node name="Reference" type="TextureRect" parent="UIControl/ReferenceContainer/VBoxContainer"]
+margin_top = 284.0
+margin_right = 400.0
+margin_bottom = 684.0
+rect_min_size = Vector2( 400, 400 )
+mouse_filter = 2
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextQuitButtonContainer" type="MarginContainer" parent="UIControl"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -129.0
+margin_right = 365.0
+mouse_filter = 2
+custom_constants/margin_left = 130
+custom_constants/margin_bottom = 80
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIControl/NextQuitButtonContainer"]
+margin_left = 130.0
+margin_right = 415.0
+margin_bottom = 49.0
+custom_constants/separation = 50
+alignment = 1
+
+[node name="NextButton" type="Button" parent="UIControl/NextQuitButtonContainer/HBoxContainer" groups=["NextQuitButtons"]]
+margin_right = 174.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 12 )
+text = "Next picture"
+
+[node name="QuitButton" type="Button" parent="UIControl/NextQuitButtonContainer/HBoxContainer" groups=["NextQuitButtons"]]
+margin_left = 224.0
+margin_right = 285.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 12 )
+text = "Quit"
+
+[connection signal="pressed" from="UIControl/TitleScreen/MarginContainer/VBoxContainer/StartGameButton" to="UIControl" method="_on_StartGameButton_pressed"]
+[connection signal="pressed" from="UIControl/TitleScreen/MarginContainer/VBoxContainer/SettingsButton" to="UIControl" method="_on_SettingsButton_pressed"]
+[connection signal="about_to_show" from="UIControl/Settings" to="UIControl" method="_on_Settings_about_to_show"]
+[connection signal="value_changed" from="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer/GridSizeSlider" to="UIControl" method="_on_GridSizeSlider_value_changed"]
+[connection signal="toggled" from="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HintDisplayButton" to="UIControl" method="_on_HintDisplayButton_toggled"]
+[connection signal="toggled" from="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/ReferenceDisplayButton2" to="UIControl" method="_on_ReferenceDisplayButton2_toggled"]
+[connection signal="toggled" from="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer/RotationButton" to="UIControl" method="_on_RotationButton_toggled"]
+[connection signal="pressed" from="UIControl/Settings/TabContainer/Gameplay/Button" to="UIControl" method="_on_Button_pressed"]
+[connection signal="toggled" from="UIControl/Settings/TabContainer/Video/MarginContainer/GridContainer/FullscreenModeButton" to="UIControl" method="_on_FullscreenModeButton_toggled"]
+[connection signal="pressed" from="UIControl/Settings/TabContainer/Video/Button" to="UIControl" method="_on_Button_pressed"]
+[connection signal="value_changed" from="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer/MasterVolumeSlider" to="UIControl" method="_on_MasterVolumeSlider_value_changed"]
+[connection signal="value_changed" from="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer2/SFXVolumeSlider" to="UIControl" method="_on_SFXVolumeSlider_value_changed"]
+[connection signal="value_changed" from="UIControl/Settings/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3/MusicVolumeSlider" to="UIControl" method="_on_MusicVolumeSlider_value_changed"]
+[connection signal="pressed" from="UIControl/Settings/TabContainer/Audio/Button" to="UIControl" method="_on_Button_pressed"]
