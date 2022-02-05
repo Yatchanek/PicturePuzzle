@@ -12,7 +12,7 @@ var custom_pictures = []
 
 var display_hints = true
 var display_reference = true
-var enable_rotations = true
+var enable_rotations = false
 var game_in_progress = false
 var grid_size_changed = false
 var use_custom_pictures = false
