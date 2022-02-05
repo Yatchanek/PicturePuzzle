@@ -1,0 +1,177 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/title_screen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/game_world.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/font_24.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/fonts/font_36.tres" type="DynamicFont" id=4]
+
+[sub_resource type="StyleBoxFlat" id=2]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=4]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=5]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=6]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=7]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=8]
+draw_center = false
+
+[sub_resource type="Theme" id=1]
+FileDialog/fonts/font = ExtResource( 3 )
+
+[node name="GameManager" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="PictureContainer" type="Node2D" parent="."]
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+color = Color( 0.0235294, 0.0235294, 0.0588235, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -299.0
+margin_top = -65.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/MarginContainer"]
+margin_left = 289.0
+margin_right = 289.0
+margin_bottom = 55.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+custom_fonts/font = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Reference" type="MarginContainer" parent="HUD"]
+visible = false
+anchor_bottom = 1.0
+margin_right = 300.0
+mouse_filter = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+custom_constants/margin_left = 50
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Reference"]
+margin_left = 50.0
+margin_right = 350.0
+margin_bottom = 720.0
+alignment = 1
+
+[node name="Label" type="Label" parent="HUD/Reference/VBoxContainer"]
+margin_top = 205.0
+margin_right = 250.0
+margin_bottom = 260.0
+custom_fonts/font = ExtResource( 4 )
+text = "Target picture"
+align = 1
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Reference/VBoxContainer"]
+margin_top = 264.0
+margin_right = 275.0
+margin_bottom = 539.0
+rect_min_size = Vector2( 300, 300 )
+mouse_filter = 2
+size_flags_horizontal = 0
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextQuitButtons" type="MarginContainer" parent="HUD"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -63.0
+margin_right = 229.0
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/NextQuitButtons"]
+margin_left = 20.0
+margin_right = 229.0
+margin_bottom = 43.0
+custom_constants/separation = 20
+
+[node name="NextPictureButton" type="Button" parent="HUD/NextQuitButtons/HBoxContainer" groups=["NextQuitButtons"]]
+margin_right = 134.0
+margin_bottom = 43.0
+mouse_default_cursor_shape = 2
+custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.572549, 0.572549, 0.572549, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+text = "Next Picture"
+
+[node name="QuitButton" type="Button" parent="HUD/NextQuitButtons/HBoxContainer" groups=["NextQuitButtons"]]
+margin_left = 154.0
+margin_right = 201.0
+margin_bottom = 43.0
+mouse_default_cursor_shape = 2
+custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.572549, 0.572549, 0.572549, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
+text = "Quit"
+
+[node name="TitleScreen" parent="HUD" instance=ExtResource( 1 )]
+
+[node name="FileDialog" parent="HUD/TitleScreen" index="3"]
+theme = SubResource( 1 )
+
+[connection signal="pressed" from="HUD/NextQuitButtons/HBoxContainer/NextPictureButton" to="." method="_on_NextPictureButton_pressed"]
+[connection signal="pressed" from="HUD/NextQuitButtons/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="popup_hide" from="HUD/TitleScreen/Settings" to="." method="_on_Settings_popup_hide"]
+
+[editable path="HUD/TitleScreen"]

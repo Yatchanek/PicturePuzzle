@@ -1,0 +1,533 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://assets/fonts/font_42.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scripts/settings.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/font_36.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/fonts/font_16.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/ui/off.png" type="Texture" id=5]
+[ext_resource path="res://assets/fonts/font_24.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/ui/on.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/scrollVertical.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/grabber.png" type="Texture" id=9]
+[ext_resource path="res://assets/ui/grabber_highlight.png" type="Texture" id=10]
+[ext_resource path="res://assets/ui/musicOn.png" type="Texture" id=11]
+[ext_resource path="res://assets/ui/signal1.png" type="Texture" id=12]
+[ext_resource path="res://assets/ui/signal3.png" type="Texture" id=13]
+[ext_resource path="res://assets/ui/audioOff.png" type="Texture" id=14]
+[ext_resource path="res://assets/ui/audioOn.png" type="Texture" id=15]
+[ext_resource path="res://assets/ui/musicOff.png" type="Texture" id=16]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0392157, 0.0392157, 0.117647, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0880585, 0.0880585, 0.113281, 1 )
+border_width_left = 5
+border_width_right = 15
+border_color = Color( 1, 1, 1, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.262745, 0.262745, 0.368627, 1 )
+border_width_right = 15
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="Theme" id=4]
+CheckButton/icons/off = ExtResource( 5 )
+CheckButton/icons/on = ExtResource( 7 )
+HSlider/icons/grabber = ExtResource( 9 )
+HSlider/icons/grabber_highlight = ExtResource( 10 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = null
+HSlider/styles/grabber_area_highlight = null
+HSlider/styles/slider = null
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 1 )
+OptionButton/constants/arrow_margin = 0
+OptionButton/icons/arrow = ExtResource( 8 )
+TabContainer/constants/hseparation = 100
+TabContainer/constants/label_valign_bg = 13
+TabContainer/constants/label_valign_fg = 15
+TabContainer/constants/side_margin = 10
+TabContainer/styles/panel = SubResource( 1 )
+TabContainer/styles/tab_bg = SubResource( 2 )
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = SubResource( 3 )
+
+[sub_resource type="Theme" id=5]
+TabContainer/styles/panel = null
+TabContainer/styles/tab_bg = null
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = null
+
+[sub_resource type="StyleBoxFlat" id=8]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=7]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=6]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[node name="Settings" type="Popup"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = -300.0
+margin_right = 450.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 900, 600 )
+theme = SubResource( 4 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0235294, 0.0235294, 0.0588235, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 4 )
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gameplay" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 37.0
+margin_right = -2.0
+margin_bottom = -2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Gameplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Gameplay/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 876.0
+margin_bottom = 541.0
+custom_constants/vseparation = 5
+columns = 2
+
+[node name="GridSizeLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_right = 460.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 3 )
+text = "Grid Size"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_left = 464.0
+margin_right = 856.0
+margin_bottom = 55.0
+alignment = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 98.0
+margin_top = 9.0
+margin_right = 110.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 6 )
+text = "3"
+
+[node name="GridSizeButton" type="HSlider" parent="TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer" groups=["Buttons"]]
+margin_left = 114.0
+margin_top = 12.0
+margin_right = 364.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 250, 0 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = SubResource( 5 )
+min_value = 3.0
+max_value = 10.0
+value = 4.0
+tick_count = 8
+ticks_on_borders = true
+
+[node name="Label2" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 368.0
+margin_top = 9.0
+margin_right = 392.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 6 )
+text = "10	"
+
+[node name="NumberHintsLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 60.0
+margin_right = 460.0
+margin_bottom = 115.0
+custom_fonts/font = ExtResource( 3 )
+text = "Show number hints"
+
+[node name="NumberHintsButton" type="CheckButton" parent="TabContainer/Gameplay/MarginContainer/GridContainer" groups=["Buttons"]]
+margin_left = 774.0
+margin_top = 60.0
+margin_right = 856.0
+margin_bottom = 115.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+align = 2
+
+[node name="ReferencePictureLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 120.0
+margin_right = 460.0
+margin_bottom = 175.0
+custom_fonts/font = ExtResource( 3 )
+text = "Show reference picture"
+
+[node name="ReferencePictureButton" type="CheckButton" parent="TabContainer/Gameplay/MarginContainer/GridContainer" groups=["Buttons"]]
+margin_left = 774.0
+margin_top = 120.0
+margin_right = 856.0
+margin_bottom = 175.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+
+[node name="TileRotationLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 180.0
+margin_right = 460.0
+margin_bottom = 235.0
+custom_fonts/font = ExtResource( 3 )
+text = "Enable tile rotation"
+
+[node name="TileRotationButton" type="CheckButton" parent="TabContainer/Gameplay/MarginContainer/GridContainer" groups=["Buttons"]]
+margin_left = 774.0
+margin_top = 180.0
+margin_right = 856.0
+margin_bottom = 235.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+
+[node name="DefaultPicturesLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+visible = false
+margin_top = 255.0
+margin_right = 459.0
+margin_bottom = 310.0
+custom_fonts/font = ExtResource( 3 )
+text = "Use default pictures"
+
+[node name="DefaultPicturesButton" type="CheckButton" parent="TabContainer/Gameplay/MarginContainer/GridContainer" groups=["Buttons"]]
+visible = false
+margin_left = 463.0
+margin_top = 255.0
+margin_right = 852.0
+margin_bottom = 310.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+
+[node name="CustomPicturesLabel2" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+visible = false
+margin_top = 315.0
+margin_right = 459.0
+margin_bottom = 370.0
+custom_fonts/font = ExtResource( 3 )
+text = "Use custom pictures"
+
+[node name="CustomPicturesButton2" type="CheckButton" parent="TabContainer/Gameplay/MarginContainer/GridContainer" groups=["Buttons"]]
+visible = false
+margin_left = 463.0
+margin_top = 315.0
+margin_right = 852.0
+margin_bottom = 370.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+
+[node name="WarningLabel" type="Label" parent="TabContainer/Gameplay/MarginContainer/GridContainer"]
+margin_top = 240.0
+margin_right = 460.0
+margin_bottom = 265.0
+custom_fonts/font = ExtResource( 4 )
+text = "*Grid size change will take effect after loading the next picture"
+
+[node name="Video Options" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 37.0
+margin_right = -2.0
+margin_bottom = -2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Video Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Video Options/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 876.0
+margin_bottom = 541.0
+custom_constants/vseparation = 5
+columns = 2
+
+[node name="DisplayModeLabel" type="Label" parent="TabContainer/Video Options/MarginContainer/GridContainer"]
+margin_right = 223.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 3 )
+text = "Display mode"
+
+[node name="DisplayModeButton" type="OptionButton" parent="TabContainer/Video Options/MarginContainer/GridContainer" groups=["Buttons"]]
+margin_left = 714.0
+margin_right = 856.0
+margin_bottom = 55.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 6 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/normal = SubResource( 7 )
+toggle_mode = false
+text = "Windowed"
+items = [ "Windowed", null, false, 1, false, "Fullscreen", null, false, 0, false ]
+selected = 0
+
+[node name="Audio Options" type="Tabs" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 37.0
+margin_right = -2.0
+margin_bottom = -2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Audio Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Audio Options/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 876.0
+margin_bottom = 541.0
+custom_constants/vseparation = 5
+columns = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_right = 244.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 3 )
+text = "Master Volume"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_left = 488.0
+margin_top = 12.0
+margin_right = 856.0
+margin_bottom = 42.0
+size_flags_horizontal = 10
+size_flags_vertical = 4
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer"]
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+size_flags_vertical = 7
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+
+[node name="MasterVolumeSlider" type="HSlider" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer" groups=["Buttons"]]
+margin_left = 34.0
+margin_right = 334.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 300, 0 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+min_value = -40.0
+max_value = 40.0
+step = 10.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="TextureRect2" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer"]
+margin_left = 338.0
+margin_right = 368.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+size_flags_horizontal = 0
+texture = ExtResource( 13 )
+expand = true
+stretch_mode = 6
+
+[node name="SfxVolumeLabel2" type="Label" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_top = 60.0
+margin_right = 244.0
+margin_bottom = 115.0
+custom_fonts/font = ExtResource( 3 )
+text = "SFX Volume"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_left = 488.0
+margin_top = 72.0
+margin_right = 856.0
+margin_bottom = 102.0
+size_flags_horizontal = 10
+size_flags_vertical = 4
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer2"]
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture = ExtResource( 14 )
+expand = true
+stretch_mode = 6
+
+[node name="SfxVolumeSlider" type="HSlider" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer2" groups=["Buttons"]]
+margin_left = 34.0
+margin_right = 334.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 300, 0 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+min_value = -40.0
+max_value = 40.0
+step = 10.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="TextureRect2" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer2"]
+margin_left = 338.0
+margin_right = 368.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="MusicVolumeLabel3" type="Label" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_top = 120.0
+margin_right = 244.0
+margin_bottom = 175.0
+custom_fonts/font = ExtResource( 3 )
+text = "Music Volume"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Audio Options/MarginContainer/GridContainer"]
+margin_left = 488.0
+margin_top = 132.0
+margin_right = 856.0
+margin_bottom = 162.0
+size_flags_horizontal = 10
+size_flags_vertical = 4
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer3"]
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 6
+
+[node name="MusicVolumeSlider" type="HSlider" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer3" groups=["Buttons"]]
+margin_left = 34.0
+margin_right = 334.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 300, 0 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+min_value = -40.0
+max_value = 40.0
+step = 10.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="TextureRect2" type="TextureRect" parent="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer3"]
+margin_left = 338.0
+margin_right = 368.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 6
+
+[node name="OKButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -111.0
+margin_top = -94.0
+margin_right = 111.0
+margin_bottom = -20.0
+mouse_default_cursor_shape = 2
+custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.698039, 0.698039, 0.698039, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
+custom_styles/normal = SubResource( 6 )
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="about_to_show" from="." to="." method="_on_Settings_about_to_show"]
+[connection signal="popup_hide" from="." to="." method="_on_Settings_popup_hide"]
+[connection signal="tab_selected" from="TabContainer" to="." method="_on_TabContainer_tab_selected"]
+[connection signal="value_changed" from="TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer/GridSizeButton" to="." method="_on_GridSizeButton_value_changed"]
+[connection signal="toggled" from="TabContainer/Gameplay/MarginContainer/GridContainer/NumberHintsButton" to="." method="_on_NumberHintsButton_toggled"]
+[connection signal="toggled" from="TabContainer/Gameplay/MarginContainer/GridContainer/ReferencePictureButton" to="." method="_on_ReferencePictureButton_toggled"]
+[connection signal="toggled" from="TabContainer/Gameplay/MarginContainer/GridContainer/TileRotationButton" to="." method="_on_TileRotationButton_toggled"]
+[connection signal="toggled" from="TabContainer/Gameplay/MarginContainer/GridContainer/DefaultPicturesButton" to="." method="_on_TileRotationButton_toggled"]
+[connection signal="toggled" from="TabContainer/Gameplay/MarginContainer/GridContainer/CustomPicturesButton2" to="." method="_on_TileRotationButton_toggled"]
+[connection signal="item_selected" from="TabContainer/Video Options/MarginContainer/GridContainer/DisplayModeButton" to="." method="_on_DisplayModeButton_item_selected"]
+[connection signal="toggled" from="TabContainer/Video Options/MarginContainer/GridContainer/DisplayModeButton" to="." method="_on_DisplayModeButton_toggled"]
+[connection signal="value_changed" from="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer/MasterVolumeSlider" to="." method="_on_MasterVolumeSlider_value_changed"]
+[connection signal="value_changed" from="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer2/SfxVolumeSlider" to="." method="_on_SfxVolumeSlider_value_changed"]
+[connection signal="value_changed" from="TabContainer/Audio Options/MarginContainer/GridContainer/HBoxContainer3/MusicVolumeSlider" to="." method="_on_MusicVolumeSlider_value_changed"]
+[connection signal="pressed" from="OKButton" to="." method="_on_Button_pressed"]
