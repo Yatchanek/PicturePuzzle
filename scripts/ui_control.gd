@@ -14,6 +14,7 @@ onready var time_label = $TimeLabelContainer/TimeLabel
 onready var title_screen = $TitleScreen
 onready var next_quit_buttons = $NextQuitButtonContainer
 onready var reference_container = $ReferenceContainer
+onready var info_label = $ReferenceContainer/ReferenceControl/InfoLabel
 
 signal next_picture
 signal quit_to_menu
@@ -23,10 +24,18 @@ func update_time_label(minutes, seconds):
 
 func reset_time_label():
 	time_label.text = "00:00"
+	
+func return_to_menu():
+	reset_time_label()
+	reference_container.hide()
+	next_quit_buttons.hide()
+	time_label.hide()
+	title_screen.show()
 
 func _on_StartGameButton_pressed():
 	title_screen.hide()
-	time_label.show()	
+	time_label.show()
+	info_label.show()
 	Globals.start()
 
 
@@ -90,4 +99,5 @@ func _on_QuitButton_pressed():
 	emit_signal("quit_to_menu")
 	next_quit_buttons.hide()
 	reference_container.hide()
+	info_label.hide()
 	title_screen.show()

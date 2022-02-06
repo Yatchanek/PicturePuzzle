@@ -12,6 +12,14 @@ var default_pictures =[
 ]
 var custom_pictures = []
 
+var captions = [
+	"Statue of Nio, Japan", "Waterfall in Japan", "\"Mona Lisa\" by Leonardo da Vinci, ca. 1503-1506",
+	"City Hall in Poznan, Poland", "Pansy flower", "\"Great Wave off Kanagawa\" \nby Katsushika Hokusai, ca. 1830",
+	"Fokker Dr.I", "Freshwater fish tank", "Pearl gourami", "Ancistrus fish",
+	"\"Union of Lublin\" by Jan Matejko, 1869 ", "\"Battle of Grunwald\" by Jan Matejko, 1878",
+	"\"The Scream\" by Edvard Munch, 1893"
+]
+
 var display_hints = true
 var display_reference = true
 var enable_rotations = false

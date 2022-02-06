@@ -1,16 +1,18 @@
 extends Node2D
 
 var firework_scene = preload("res://scenes/fireworks.tscn")
+var tile_scene : PackedScene = preload("res://scenes/tile.tscn")
 
-onready var picture_container : Node = $GameLayer/PictureContainer
+onready var picture_container : Node = $PictureContainer
 onready var reference : Node = $HUD/UIControl/ReferenceContainer/ReferenceControl/Reference
 onready var reference_container : Node = $HUD/UIControl/ReferenceContainer
 onready var tween : Node = $Tween
 onready var next_quit_buttons : Node = $HUD/UIControl/NextQuitButtonContainer
 onready var hud : Node = $HUD/UIControl
 onready var grid = $Grid
+onready var info_label = $HUD/UIControl/ReferenceContainer/ReferenceControl/InfoLabel
+onready var firework_layer = $FireworkLayer
 
-var tile_scene : PackedScene = preload("res://scenes/tile.tscn")
 
 signal game_ended
 signal game_started
@@ -19,7 +21,7 @@ signal game_started
 var can_move : bool
 var game_won : bool
 var current_picture : int
-var previous_default_picture : int
+var previous_pictures : Array
 var previous_custom_picture : int
 var start_time : int
 var current_time : int
@@ -30,16 +32,20 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.is_pressed():
 			if event.scancode == KEY_P:
-				paused_time = current_time
-				set_process(false)
-				hud.settings_panel.popup()
-			if event.scancode == KEY_ESCAPE:
+				if !hud.settings_panel.visible:
+					paused_time = current_time
+					set_process(false)
+					hud.settings_panel.popup()
+				else:
+					hud.settings_panel.hide()
+					restart_time = OS.get_unix_time()
+					set_process(true)			
+			if event.scancode == KEY_ESCAPE and can_move:
 				if hud.title_screen.visible:
 					get_tree().quit()
 				else:
-					hud.title_screen.show()
-					reference_container.hide()
-					next_quit_buttons.hide()
+					hud.return_to_menu()
+					set_process(false)
 					clear_board()
 								
 	elif event is InputEventMouseButton:
@@ -88,20 +94,21 @@ func load_picture():
 		tile.queue_free()
 		
 	randomize()
-	var img
-	if Globals.use_custom_pictures and Globals.custom_pictures.size() > 0:	
-		if randf() < 0.000005:
-			img = load_default_image()
-		else:
-			img = load_custom_image()
-	else:
-		img = load_default_image()
+	var img = load_default_image()
+#	if Globals.use_custom_pictures and Globals.custom_pictures.size() > 0:	
+#		if randf() < 0.000005:
+#			img = load_default_image()
+#		else:
+#			img = load_custom_image()
+#		pass
+#	else:
 		
 	var w : int = clamp(img.get_width(), 0, 768)
 	var h : int = clamp(img.get_height(), 0, 768)
 	
 	create_tiles(img, Globals.GRID_SIZE)
 	picture_container.position = Vector2((1600 - w - Globals.GRID_SIZE * Globals.GAP) / 2.0,  (900 - h - Globals.GRID_SIZE * Globals.GAP) / 2.0)
+
 	emit_signal("game_started")
 	game_won = false
 	next_quit_buttons.hide()
@@ -115,30 +122,33 @@ func load_picture():
 func load_default_image():
 	randomize()
 	current_picture = randi() % Globals.default_pictures.size()
-	while current_picture == previous_default_picture:
+	while previous_pictures.has(current_picture):
 		current_picture = randi() % Globals.default_pictures.size()
-	previous_default_picture = current_picture
+	previous_pictures.push_back(current_picture)
+	if previous_pictures.size() > 5:
+		previous_pictures.pop_front()
 	var img = load(Globals.default_pictures[current_picture])
+	info_label.text = Globals.captions[current_picture]
 	return img
 	
-func load_custom_image():
-	randomize()
-	current_picture = randi() % Globals.custom_pictures.size()
-	while current_picture == previous_default_picture:
-		current_picture = randi() % Globals.custom_pictures.size()
-	
-	var img = Image.new()
-	img.load(Globals.custom_pictures[current_picture])
-	
-	var tex = ImageTexture.new()
-	tex.create_from_image(img)
-	var min_size = min(tex.get_width(), tex.get_height())
-	
-	var atlas_tex = AtlasTexture.new()
-	atlas_tex.atlas = tex
-	atlas_tex.region = Rect2(0, 0, min_size, min_size)
-	
-	return atlas_tex
+#func load_custom_image():
+#	randomize()
+#	current_picture = randi() % Globals.custom_pictures.size()
+#	while current_picture == previous_default_picture:
+#		current_picture = randi() % Globals.custom_pictures.size()
+#
+#	var img = Image.new()
+#	img.load(Globals.custom_pictures[current_picture])
+#
+#	var tex = ImageTexture.new()
+#	tex.create_from_image(img)
+#	var min_size = min(tex.get_width(), tex.get_height())
+#
+#	var atlas_tex = AtlasTexture.new()
+#	atlas_tex.atlas = tex
+#	atlas_tex.region = Rect2(0, 0, min_size, min_size)
+#
+#	return atlas_tex
 	
 func create_tiles(image : Texture, grid_size : int):
 	var tile_width = floor(clamp(image.get_width(), 0, 768) / grid_size)
@@ -187,7 +197,7 @@ func toggle_label_hints():
 func launch_fireworks():
 	for _i in range (10 + randi() % 5):
 		var firework = firework_scene.instance()
-		picture_container.add_child(firework)
+		firework_layer.add_child(firework)
 		firework.global_position.x = rand_range(100, get_viewport().size.x - 100)
 		firework.global_position.y = rand_range(100, get_viewport().size.y - 100)
 		firework.emitting = true
@@ -217,7 +227,6 @@ func _on_Shuffle_completed():
 	paused_time = 0
 	set_process(true)
 	can_move = true
-	
 
 func _on_Settings_popup_hide():
 	if Globals.game_in_progress:
