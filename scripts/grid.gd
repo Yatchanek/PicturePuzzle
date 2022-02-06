@@ -8,10 +8,14 @@ signal shuffle_completed
 var _directions : Array
 var _cell_mappings: Dictionary
 
-func _init(size):
+
+func init(size):
 	_size = size
-	_directions = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 	_cell_mappings = {}
+	clear()
+
+func _ready():
+	_directions = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 	
 
 func shuffle():
@@ -22,8 +26,8 @@ func shuffle():
 		var a = Vector2(i % _size, floor(i / _size))
 		var b = Vector2(j % _size, floor(j / _size))
 
-		var switch = switch(a, b, 0.025)
-		yield(_cell_mappings[b].tween, "tween_all_completed")
+		switch(a, b, 0)
+		yield(get_tree(), "idle_frame")
 		if Globals.enable_rotations:
 			if randf() < 0.15:
 			 _cell_mappings[b].rotate_self(0)
@@ -31,17 +35,18 @@ func shuffle():
 	if !is_solvable():
 		var a = Vector2(randi() % _size, randi() % _size)
 		var b = Vector2(randi() % _size, randi() % _size)
-		while a.x == b.x and a.y == b.y:
+		while (a.x == b.x and a.y == b.y) or _cell_mappings[a].index == 0 or _cell_mappings[b].index == 0:
+			a = Vector2(randi() % _size, randi() % _size)
 			b = Vector2(randi() % _size, randi() % _size)
 		switch(a, b, 0)
 		
 	emit_signal("shuffle_completed")
 	
-func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25) -> void:
+func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25, trail : bool = false) -> void:
 	var temp = _cell_mappings[cell_one]
 	var pos = temp.position
 	
-	_cell_mappings[cell_one].move(_cell_mappings[cell_two].position, speed)
+	_cell_mappings[cell_one].move(_cell_mappings[cell_two].position, speed, trail)
 	_cell_mappings[cell_two].move(pos, speed)
 	_cell_mappings[cell_one] = _cell_mappings[cell_two]
 	_cell_mappings[cell_two] = temp

@@ -1,6 +1,7 @@
 extends Control
 
 onready var settings_panel = $Settings
+onready var tab_container = $Settings/TabContainer
 onready var grid_size_slider = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer/GridSizeSlider
 onready var hint_display_button = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HintDisplayButton
 onready var reference_display_button = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/ReferenceDisplayButton2
@@ -70,6 +71,7 @@ func _on_Button_pressed():
 	
 	
 func _on_Settings_about_to_show():
+	tab_container.current_tab = 0
 	grid_size_slider = Globals.GRID_SIZE
 	hint_display_button.pressed = Globals.display_hints
 	reference_display_button.pressed = Globals.display_reference

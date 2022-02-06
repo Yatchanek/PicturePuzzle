@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/fonts/font_42.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/fonts/font_24.tres" type="DynamicFont" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://scripts/ui_control.gd" type="Script" id=11]
 [ext_resource path="res://assets/fonts/font_32.tres" type="DynamicFont" id=12]
 [ext_resource path="res://assets/fonts/font_50.tres" type="DynamicFont" id=13]
+[ext_resource path="res://scenes/reference_control.tscn" type="PackedScene" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -31,6 +32,22 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ReferenceContainer" type="MarginContainer" parent="UIControl"]
+visible = false
+anchor_bottom = 1.0
+margin_right = 480.0
+mouse_filter = 2
+custom_constants/margin_left = 80
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceControl" parent="UIControl/ReferenceContainer" instance=ExtResource( 14 )]
+anchor_bottom = 0.0
+margin_left = 80.0
+margin_right = 480.0
+margin_bottom = 900.0
 
 [node name="TitleScreen" type="Control" parent="UIControl"]
 anchor_right = 1.0
@@ -254,10 +271,6 @@ tab_align = 0
 [node name="MarginContainer" type="MarginContainer" parent="UIControl/Settings/TabContainer/Video"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 18.0
-margin_top = 3.0
-margin_right = 18.0
-margin_bottom = 3.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
@@ -281,7 +294,7 @@ custom_fonts/font = ExtResource( 1 )
 text = "Fullscreen mode"
 
 [node name="FullscreenModeButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Video/MarginContainer/GridContainer"]
-margin_left = 894.0
+margin_left = 888.0
 margin_right = 958.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
@@ -477,7 +490,6 @@ __meta__ = {
 }
 
 [node name="TimeLabelContainer" type="MarginContainer" parent="UIControl"]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -494,51 +506,15 @@ __meta__ = {
 }
 
 [node name="TimeLabel" type="Label" parent="UIControl/TimeLabelContainer"]
-margin_left = 1464.0
-margin_top = 816.0
+visible = false
+margin_left = 1490.0
+margin_top = 831.0
 margin_right = 1580.0
 margin_bottom = 880.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "00:00"
-
-[node name="ReferenceContainer" type="MarginContainer" parent="UIControl"]
-visible = false
-anchor_bottom = 1.0
-margin_right = 480.0
-mouse_filter = 2
-custom_constants/margin_left = 80
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UIControl/ReferenceContainer"]
-margin_left = 80.0
-margin_right = 480.0
-margin_bottom = 900.0
-alignment = 1
-
-[node name="Label" type="Label" parent="UIControl/ReferenceContainer/VBoxContainer"]
-margin_top = 216.0
-margin_right = 400.0
-margin_bottom = 280.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 1 )
-text = "Target picture"
-align = 1
-
-[node name="Reference" type="TextureRect" parent="UIControl/ReferenceContainer/VBoxContainer"]
-margin_top = 284.0
-margin_right = 400.0
-margin_bottom = 684.0
-rect_min_size = Vector2( 400, 400 )
-mouse_filter = 2
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="NextQuitButtonContainer" type="MarginContainer" parent="UIControl"]
 visible = false

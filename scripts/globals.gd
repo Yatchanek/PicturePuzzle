@@ -1,12 +1,14 @@
 extends Node
 
 var GRID_SIZE = 4
-var GAP = 2
+var GAP = 4
 var default_pictures =[
 "res://assets/pictures/picture_01.jpg", "res://assets/pictures/picture_02.jpg",
 "res://assets/pictures/picture_03.jpg", "res://assets/pictures/picture_04.jpg",
 "res://assets/pictures/picture_05.jpg", "res://assets/pictures/picture_06.jpg", 
-#"res://assets/pictures/picture_7.jpg", "res://assets/pictures/picture_8.jpg"
+"res://assets/pictures/picture_07.jpg", "res://assets/pictures/picture_08.jpg",
+"res://assets/pictures/picture_09.jpg", "res://assets/pictures/picture_10.jpg",
+"res://assets/pictures/picture_11.jpg", "res://assets/pictures/picture_12.jpg",
 ]
 var custom_pictures = []
 
@@ -19,6 +21,7 @@ var use_custom_pictures = false
 
 signal start_game
 signal reference_display_toggled
+signal toggle_labels
 
 func _ready():
 	var f = File.new()
@@ -32,8 +35,7 @@ func set_grid_size(value):
 	
 func set_hints_display(value):
 	display_hints = value
-	for tile in get_node("/root/GameWorld/PictureContainer").get_children():
-		tile.label.visible = value
+	emit_signal("toggle_labels")
 			
 	
 func set_reference_display(value):

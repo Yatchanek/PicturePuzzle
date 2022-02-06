@@ -2,19 +2,20 @@ extends Node2D
 
 var firework_scene = preload("res://scenes/fireworks.tscn")
 
-onready var picture_container : Node = $PictureContainer
-onready var reference : Node = $HUD/UIControl/ReferenceContainer/VBoxContainer/Reference
+onready var picture_container : Node = $GameLayer/PictureContainer
+onready var reference : Node = $HUD/UIControl/ReferenceContainer/ReferenceControl/Reference
 onready var reference_container : Node = $HUD/UIControl/ReferenceContainer
 onready var tween : Node = $Tween
 onready var next_quit_buttons : Node = $HUD/UIControl/NextQuitButtonContainer
 onready var hud : Node = $HUD/UIControl
+onready var grid = $Grid
 
 var tile_scene : PackedScene = preload("res://scenes/tile.tscn")
 
 signal game_ended
 signal game_started
 
-var grid
+
 var can_move : bool
 var game_won : bool
 var current_picture : int
@@ -38,6 +39,7 @@ func _unhandled_input(event):
 				else:
 					hud.title_screen.show()
 					reference_container.hide()
+					next_quit_buttons.hide()
 					clear_board()
 								
 	elif event is InputEventMouseButton:
@@ -50,7 +52,7 @@ func _unhandled_input(event):
 					var blank = grid.find_blank_neighbour(cell)
 					if blank != null:
 						can_move = false
-						grid.switch(cell, blank)
+						grid.switch(cell, blank, 0.25, true)
 
 			if event.button_index == BUTTON_RIGHT and Globals.enable_rotations:
 				if !game_won:
@@ -62,6 +64,7 @@ func _unhandled_input(event):
 func _ready():
 	Globals.connect("start_game", self, "load_picture")
 	Globals.connect("reference_display_toggled", self, "toggle_reference_display")
+	Globals.connect("toggle_labels", self, "toggle_label_hints")
 	hud.connect("next_picture", self, "_on_NextPictureButton_pressed")
 	hud.connect("quit_to_menu", self, "_on_QuitButton_pressed")
 	connect("game_started", Globals, "_on_Game_started")
@@ -78,11 +81,10 @@ func update_time_label():
 	var minutes = floor(current_time / 60.0)
 	var seconds = current_time % 60
 	hud.update_time_label(minutes, seconds)
-
 	
 	
 func load_picture():
-	for tile in $PictureContainer.get_children():
+	for tile in picture_container.get_children():
 		tile.queue_free()
 		
 	randomize()
@@ -106,7 +108,7 @@ func load_picture():
 	hud.reset_time_label()
 	
 	if Globals.display_reference:
-		picture_container.position.x += 300
+		picture_container.position.x += 280
 		reference.texture = img
 		reference_container.show()
 	
@@ -142,9 +144,8 @@ func create_tiles(image : Texture, grid_size : int):
 	var tile_width = floor(clamp(image.get_width(), 0, 768) / grid_size)
 	var tile_height = floor(clamp(image.get_height(), 0, 768) / grid_size)
 
-	grid = Grid.new(grid_size)
+	grid.init(grid_size)
 	grid.set_cell_size(Vector2(tile_width + 5, tile_height + 5))
-	grid.connect("shuffle_completed", self, "_on_Shuffle_completed")
 
 	for i in range(grid_size):
 		for j in range(grid_size):
@@ -159,24 +160,42 @@ func create_tiles(image : Texture, grid_size : int):
 			grid.map_cell(Vector2(i, j), tile)
 			
 	picture_container.get_child(picture_container.get_children().size() - 1).hide()
+	yield(get_tree().create_timer(0.5), "timeout")
 	grid.shuffle()
 
 func clear_board():
-	for tile in $PictureContainer.get_children():
+	for tile in picture_container.get_children():
 		tile.queue_free()	
 
 func toggle_reference_display():
 	if Globals.display_reference:
-		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x + 300, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x + 280, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
 		if Globals.game_in_progress:
 			reference_container.show()
 		if Globals.game_in_progress:
 			reference.texture = picture_container.get_child(0).sprite.texture
 	else:
-		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x - 300, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x - 280, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
 		reference_container.hide()
+
+func toggle_label_hints():
+	for tile in picture_container.get_children():
+		tile.label.visible = Globals.display_hints
+
+func launch_fireworks():
+	for _i in range (10 + randi() % 5):
+		var firework = firework_scene.instance()
+		picture_container.add_child(firework)
+		firework.global_position.x = rand_range(100, get_viewport().size.x - 100)
+		firework.global_position.y = rand_range(100, get_viewport().size.y - 100)
+		firework.emitting = true
+		yield(get_tree().create_timer(0.15), "timeout")
+	
+	next_quit_buttons.show()
+	for button in get_tree().get_nodes_in_group("NextQuitButtons"):
+		button.disabled = false
 	
 func _on_Tile_move_finished():
 	var win = grid.check_for_win()
@@ -184,20 +203,11 @@ func _on_Tile_move_finished():
 		can_move = true
 	else:
 		game_won = true
-		for _i in range (10 + randi() % 5):
-			var firework = firework_scene.instance()
-			add_child(firework)
-			firework.position.x = rand_range(100, get_viewport().size.x - 100)
-			firework.position.y = rand_range(100, get_viewport().size.y - 100)
-			firework.emitting = true
-			yield(get_tree().create_timer(0.15), "timeout")
-		emit_signal("game_ended")
+
+		launch_fireworks()
 		
-		next_quit_buttons.show()
-		for button in get_tree().get_nodes_in_group("NextQuitButtons"):
-			button.disabled = false
-			
-		can_move = true
+		emit_signal("game_ended")
+	
 		set_process(false)
 	
 	

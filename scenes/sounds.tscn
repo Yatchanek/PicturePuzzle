@@ -29,3 +29,10 @@ bus = "SFX"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="Music"]
 bus = "Music"
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="MusicTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="MusicTimer" to="." method="_on_MusicTimer_timeout"]
