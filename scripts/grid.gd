@@ -61,7 +61,7 @@ func find_blank_neighbour(cell : Vector2):
 		var neighbour = cell + dir
 		if get_cellv(neighbour) == 0:
 			return neighbour
-	return null
+	return
 
 func get_valid_neighbours(cell : Vector2) -> Array:
 	var neighbours = []
@@ -76,6 +76,10 @@ func find_blank_tile():
 		for j in range(_size):
 			if get_cell(i, j) == 0:
 				return Vector2(i, j)
+
+func find_direction(blank_cell, cell):
+	var dir = _cell_mappings[blank_cell].position - _cell_mappings[cell].position
+	return dir.normalized()
 
 func switch_cells(cell_one, cell_two):
 	var temp = get_cellv(cell_one)

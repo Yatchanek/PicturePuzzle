@@ -41,4 +41,14 @@ range_item_cull_mask = 2
 format = 1
 script = ExtResource( 4 )
 
+[node name="ClickTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="DragDelayTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
 [connection signal="shuffle_completed" from="Grid" to="." method="_on_Shuffle_completed"]
+[connection signal="timeout" from="ClickTimer" to="." method="_on_ClickTimer_timeout"]
+[connection signal="timeout" from="DragDelayTimer" to="." method="_on_DragDelayTimer_timeout"]

@@ -23,6 +23,7 @@ var captions = [
 var display_hints = true
 var display_reference = true
 var enable_rotations = false
+var rotations_enabled = false
 var game_in_progress = false
 var grid_size_changed = false
 var use_custom_pictures = false
@@ -55,11 +56,11 @@ func set_reference_display(value):
 func set_rotations(value):
 	enable_rotations = value
 
-func start():
-	emit_signal("start_game")
 
 func _on_Game_started():
+	rotations_enabled = enable_rotations
 	game_in_progress = true
+	emit_signal("start_game")
 
 func _on_Game_ended():
 	game_in_progress = false

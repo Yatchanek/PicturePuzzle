@@ -39,13 +39,13 @@ func setup(image : Texture, grid_size: int, x: int, y: int) -> int:
 	index = y * grid_size + x + 1
 	if index == grid_size * grid_size:
 		index = 0
-	w *= 768.0 / image.get_width()
-	h *= 768.0 / image.get_width()
+	w *= 960.0 / image.get_width()
+	h *= 960.0 / image.get_width()
 	
 	label.get("custom_fonts/font").set_size(clamp(96 / Globals.GRID_SIZE, 12, 24))
 	call_deferred("set_label", str(index), w)
 	
-	sprite.scale *= 768.0 / image.get_width()
+	sprite.scale *= 960.0 / image.get_width()
 	initial_scale = sprite.scale
 	frame.scale *= w / 300.0 / sprite.scale.x
 	border.scale = frame.scale
