@@ -66,7 +66,7 @@ func move(pos, speed, trail : bool = false):
 			t.direction = (position - pos).normalized()
 			t.position = pivot.position
 			t.emission_rect_extents = 0.8 * Vector2(sprite.region_rect.size.x * 0.5 * sprite.scale.x, sprite.region_rect.size.x * 0.5 * sprite.scale.x)
-			t.scale_amount *= (1 / Globals.GRID_SIZE)
+			t.scale_amount = 0.03 - 0.0025 * Globals.GRID_SIZE
 			t.amount -= Globals.GRID_SIZE
 			t.emitting = true
 		Sounds.play_effect(Sounds.SLIDE)

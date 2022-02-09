@@ -2,3 +2,7 @@
 import/
 *.import
 export_presets.cfg
+/HTML
+HTML/
+/WIN
+WIN/

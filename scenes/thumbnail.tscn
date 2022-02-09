@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/fonts/font_18.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/misc/frame.png" type="Texture" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.823529 )
@@ -38,11 +39,10 @@ Button/styles/pressed = SubResource( 1 )
 [node name="TextureRect" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1450.0
-margin_bottom = -750.0
+margin_right = -1770.0
+margin_bottom = -930.0
 rect_min_size = Vector2( 150, 150 )
 size_flags_horizontal = 6
-size_flags_vertical = 6
 theme = SubResource( 3 )
 expand = true
 stretch_mode = 6
@@ -55,11 +55,18 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -1.0
-margin_top = -30.0
-margin_right = 1.0
+margin_left = -34.0
+margin_top = -36.0
+margin_right = 34.0
+margin_bottom = -6.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 text = "Remove"
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.396078, 0.396078, 0.396078, 0.588235 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+centered = false

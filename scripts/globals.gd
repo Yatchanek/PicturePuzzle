@@ -10,7 +10,7 @@ var default_pictures =[
 "res://assets/pictures/picture_09.jpg", "res://assets/pictures/picture_10.jpg",
 "res://assets/pictures/picture_11.jpg", "res://assets/pictures/picture_12.jpg",
 ]
-var custom_pictures = []
+var custom_images = []
 
 var captions = [
 	"Statue of Nio, Japan", "Waterfall in Japan", "\"Mona Lisa\" by Leonardo da Vinci, ca. 1503-1506",
@@ -26,7 +26,8 @@ var enable_rotations = false
 var rotations_enabled = false
 var game_in_progress = false
 var grid_size_changed = false
-var use_custom_pictures = false
+var use_custom_images = false
+var use_built_in_images = true
 
 signal start_game
 signal reference_display_toggled
@@ -34,11 +35,11 @@ signal toggle_labels
 
 func _ready():
 	var f = File.new()
-	if f.file_exists("user://custom_pictures.dat"):
-		f.open("user://custom_pictures.dat", File.READ)
-		custom_pictures = f.get_var()
+	if f.file_exists("user://custom_images.dat"):
+		f.open("user://custom_images.dat", File.READ)
+		custom_images = f.get_var()
 		f.close()
-
+	
 func set_grid_size(value):
 	GRID_SIZE = value
 	
@@ -56,6 +57,11 @@ func set_reference_display(value):
 func set_rotations(value):
 	enable_rotations = value
 
+func set_built_in_images_usage(value):
+	use_built_in_images = value
+	
+func set_custom_images_usage(value):
+	use_custom_images = value
 
 func _on_Game_started():
 	rotations_enabled = enable_rotations
@@ -65,8 +71,8 @@ func _on_Game_started():
 func _on_Game_ended():
 	game_in_progress = false
 
-func save_custom_pictures():
+func save_custom_images():
 	var f = File.new()
-	f.open("user://custom_pictures.dat", File.WRITE)
-	f.store_var(custom_pictures)
+	f.open("user://custom_images.dat", File.WRITE)
+	f.store_var(custom_images)
 	f.close()

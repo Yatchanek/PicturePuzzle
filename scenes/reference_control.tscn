@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/fonts/font_32.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/misc/frame_big.png" type="Texture" id=2]
-[ext_resource path="res://assets/fonts/font_18.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/fonts/font_24.tres" type="DynamicFont" id=3]
 
 [node name="ReferenceControl" type="VBoxContainer"]
 anchor_bottom = 1.0
@@ -14,9 +14,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_top = 257.0
+margin_top = 253.0
 margin_right = 480.0
-margin_bottom = 306.0
+margin_bottom = 302.0
 custom_fonts/font = ExtResource( 1 )
 text = "Target picture"
 align = 1
@@ -25,9 +25,9 @@ __meta__ = {
 }
 
 [node name="Reference" type="TextureRect" parent="."]
-margin_top = 310.0
+margin_top = 306.0
 margin_right = 480.0
-margin_bottom = 790.0
+margin_bottom = 786.0
 rect_min_size = Vector2( 480, 480 )
 mouse_filter = 2
 expand = true
@@ -39,9 +39,9 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="InfoLabel" type="Label" parent="."]
-margin_top = 794.0
+margin_top = 790.0
 margin_right = 480.0
-margin_bottom = 822.0
+margin_bottom = 827.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
 text = "Battle of Grunwald by Jan Matejko"

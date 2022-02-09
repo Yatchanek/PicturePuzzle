@@ -13,6 +13,7 @@ onready var grid = $Grid
 onready var info_label = $HUD/UIControl/ReferenceContainer/ReferenceControl/InfoLabel
 onready var firework_layer = $FireworkLayer
 onready var click_timer = $ClickTimer
+onready var error_popup =$HUD/UIControl/ErrorPopup
 
 signal game_ended
 signal game_started
@@ -29,9 +30,11 @@ var current_time : int
 var paused_time : int
 var restart_time : int
 var last_clicked_tile
-var blank = Vector2.ZERO
-var dupa = "aaa"
-var click_pos
+var blank
+var load_picture_attempts : int
+var repeat_threshold : int = 5
+
+
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -47,7 +50,8 @@ func _unhandled_input(event):
 					set_process(true)			
 			if event.scancode == KEY_ESCAPE:
 				if hud.title_screen.visible:
-					get_tree().quit()
+					if !OS.has.feature("HTML5"):
+						get_tree().quit()
 				elif can_move:
 					hud.return_to_menu()
 					set_process(false)
@@ -85,7 +89,7 @@ func _unhandled_input(event):
 		last_clicked_tile = null
 		blank = null
 		for neighbour in neighbours:
-			if event.relative.normalized().dot(grid.find_direction(blank_tile, neighbour)) > 0.5:
+			if event.relative.normalized().dot(grid.find_direction(blank_tile, neighbour)) > 0.8:
 				can_move = false
 				can_drag = false
 				grid.switch(neighbour, blank_tile)
@@ -103,6 +107,7 @@ func _ready():
 	can_move = false
 	game_won = false
 	can_drag = false
+	load_picture_attempts = 0
 	set_process(false)
 
 func _process(_delta):
@@ -115,69 +120,101 @@ func update_time_label():
 	hud.update_time_label(minutes, seconds)
 	
 	
-func load_picture():
+func load_picture(failed_load : bool = false):
 	for tile in picture_container.get_children():
 		tile.queue_free()
-		
-	randomize()
-	var img = load_default_image()
-#	if Globals.use_custom_pictures and Globals.custom_pictures.size() > 0:	
-#		if randf() < 0.5:
-#			img = load_default_image()
-#		else:
-#			img = load_custom_image()
-#		pass
-#	else:
-		
-	var w : int = clamp(img.get_width(), 0, 960)
-	var h : int = clamp(img.get_height(), 0, 960)
 	
-	create_tiles(img, Globals.GRID_SIZE)
-	picture_container.position = Vector2((1920 - w - Globals.GRID_SIZE * Globals.GAP) / 2.0,  (1080 - h - Globals.GRID_SIZE * Globals.GAP) / 2.0)
+	var img : Texture
+	
+	if failed_load:
+		img = load_default_image()
+	
+	else:
+		if Globals.use_built_in_images and ! Globals.use_custom_images:
+			img = load_default_image()
+		elif !Globals.use_built_in_images and Globals.use_custom_images:
+			img = load_custom_image()
+		else:
+			randomize()
+			if randf() < 0.5:
+				img = load_default_image()
+			else:
+				img = load_custom_image()
 
-	next_quit_buttons.hide()
-	hud.reset_time_label()
 	
-	if Globals.display_reference:
-		picture_container.position.x += 350
-		reference.texture = img
-		reference_container.show()
+	if img != null:
+		prepare_picture(img)
+	else:
+#		error_popup.popup()
+#		yield(error_popup, "hide")
+		load_picture(true)
+
+func prepare_picture(img):
+		var w : int = clamp(img.get_width(), 0, 960)
+		var h : int = clamp(img.get_height(), 0, 960)
+		
+		create_tiles(img, Globals.GRID_SIZE)
+		picture_container.position = Vector2((1920 - w - Globals.GRID_SIZE * Globals.GAP) / 2.0,  (1080 - h - Globals.GRID_SIZE * Globals.GAP) / 2.0)
+
+		next_quit_buttons.hide()
+		hud.reset_time_label()
+		hud.time_label.show()
+		
+		if Globals.display_reference:
+			picture_container.position.x += 350
+			reference.texture = img
+			reference_container.show()
+
 	
 func load_default_image():
+
 	randomize()
 	current_picture = Globals.default_pictures[randi() % Globals.default_pictures.size()]
 	while previous_pictures.has(current_picture):
 		current_picture = Globals.default_pictures[randi() % Globals.default_pictures.size()]
 	previous_pictures.push_back(current_picture)
-	if previous_pictures.size() > 5:
+	if previous_pictures.size() > repeat_threshold:
 		previous_pictures.pop_front()
 	var img = load(current_picture)
 	info_label.text = Globals.captions[Globals.default_pictures.find(current_picture)]
 	return img
 	
 func load_custom_image():
-	if Globals.custom_pictures.size() == 0:
-		load_default_image()
-		return
+	var attempts = 0
+	if Globals.custom_images.size() == 0:
+		var img = load_default_image()
+		return img
 
 	randomize()
-	current_picture = Globals.custom_pictures[randi() % Globals.custom_pictures.size()]
-	while previous_pictures.has(current_picture):
-		current_picture = Globals.custom_pictures[randi() % Globals.custom_pictures.size()]
-	previous_pictures.push_back(current_picture)
-	
+	current_picture = Globals.custom_images[randi() % Globals.custom_images.size()]
+	if Globals.custom_images.size() > repeat_threshold:
+		while previous_pictures.has(current_picture):
+			if attempts > 10:
+				var img = load_default_image()
+				return img
+			current_picture = Globals.custom_images[randi() % Globals.custom_images.size()]
+			attempts += 1
+		previous_pictures.push_back(current_picture)
+		if previous_pictures.size() > repeat_threshold:
+			previous_pictures.pop_front()
 	var img = Image.new()
-	img.load(Globals.custom_pictures[current_picture])
+	var err = img.load(current_picture)
+	if err != OK:
+		load_picture_attempts += 1
+		if load_picture_attempts > 5:
+			return null
+		else:
+			load_custom_image()
+	else:	
+		var tex = ImageTexture.new()
+		tex.create_from_image(img)
+		var min_size = min(tex.get_width(), tex.get_height())
 
-	var tex = ImageTexture.new()
-	tex.create_from_image(img)
-	var min_size = min(tex.get_width(), tex.get_height())
-
-	var atlas_tex = AtlasTexture.new()
-	atlas_tex.atlas = tex
-	atlas_tex.region = Rect2(0, 0, min_size, min_size)
-
-	return atlas_tex
+		var atlas_tex = AtlasTexture.new()
+		atlas_tex.atlas = tex
+		atlas_tex.region = Rect2(0, 0, min_size, min_size)
+		info_label.text = ""
+		return atlas_tex
 	
 func create_tiles(image : Texture, grid_size : int):
 	var tile_width = floor(clamp(image.get_width(), 0, 960) / grid_size)
@@ -254,6 +291,7 @@ func _on_Tile_move_finished():
 func _on_Shuffle_completed():
 	game_won = false
 	start_time = OS.get_unix_time()
+
 	restart_time = start_time
 	paused_time = 0
 	set_process(true)

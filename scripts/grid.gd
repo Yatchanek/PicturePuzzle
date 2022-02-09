@@ -26,7 +26,7 @@ func shuffle():
 		var a = Vector2(i % _size, floor(i / _size))
 		var b = Vector2(j % _size, floor(j / _size))
 
-		switch(a, b, 0)
+		switch(a, b, 0, false)
 		yield(get_tree(), "idle_frame")
 		if Globals.enable_rotations:
 			if randf() < 0.15:
@@ -38,11 +38,11 @@ func shuffle():
 		while (a.x == b.x and a.y == b.y) or _cell_mappings[a].index == 0 or _cell_mappings[b].index == 0:
 			a = Vector2(randi() % _size, randi() % _size)
 			b = Vector2(randi() % _size, randi() % _size)
-		switch(a, b, 0)
+		switch(a, b, 0, false)
 		
 	emit_signal("shuffle_completed")
 	
-func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25, trail : bool = false) -> void:
+func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25, trail : bool = true) -> void:
 	var temp = _cell_mappings[cell_one]
 	var pos = temp.position
 	
