@@ -22,7 +22,6 @@ signal game_started
 
 var shuffling : bool
 var game_won : bool
-var can_drag : bool
 var press_and_hold : bool
 var current_picture : String
 var previous_pictures : Array
@@ -98,15 +97,14 @@ func _unhandled_input(event):
 					grid.move_tile(valid_move)
 
 	if event is InputEventScreenDrag:
-		if !can_drag or event.relative.length() < 10:
+		if !grid.can_drag or event.relative.length() < 10:
 			return
 
 		last_clicked_tile = null
 		dir = event.relative.normalized()
 
 		for direction in dirs:
-			if dir.dot(direction) > 0.85 and grid.can_move_dir(direction):
-				can_drag = false
+			if dir.dot(direction) > 0.85:
 				grid.move_tile(direction)
 				break
 		
@@ -238,9 +236,10 @@ func create_tiles(image : Texture, grid_size : int):
 
 	for i in range(grid_size):
 		for j in range(grid_size):
+			var img = image.duplicate()
 			var tile = tile_scene.instance()
 			picture_container.add_child(tile)
-			var index = tile.setup(image, grid_size, i, j)
+			var index = tile.setup(img, grid_size, i, j)
 			if index == 0:
 				tile.connect("move_finished", self, "_on_Tile_move_finished")
 			else:
@@ -258,7 +257,7 @@ func clear_board():
 
 func toggle_reference_display():
 	grid.can_move = false
-	can_drag = false
+	grid.can_drag = false
 	if Globals.display_reference:
 		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x + 350, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
@@ -310,7 +309,6 @@ func _on_Tile_move_finished():
 	
 	
 func _on_Shuffle_completed():
-	can_drag = true
 	game_won = false
 	start_time = OS.get_unix_time()
 
@@ -337,9 +335,6 @@ func _on_QuitButton_pressed():
 		button.disabled = true
 	clear_board()
 
-
-
-			
 			
 func _on_ClickTimer_timeout():
 	press_and_hold = true
@@ -352,6 +347,5 @@ func _on_ClickTimer_timeout():
 		if valid_move:
 			grid.move_tile(valid_move)
 
-
 func _on_DragDelayTimer_timeout():
-	can_drag = true
+	grid.can_drag = true

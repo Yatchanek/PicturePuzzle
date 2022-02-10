@@ -9,6 +9,7 @@ var _directions : Array
 var _cell_mappings: Dictionary = {}
 var _blank_coords : Vector2
 var can_move : bool
+var can_drag : bool
 var shuffling : bool
 
 func init(size):
@@ -23,6 +24,7 @@ func _ready():
 	
 func shuffle():
 	can_move = false
+	can_drag = false
 	shuffling = true
 	randomize()
 	for i in range (_size * _size - 1):
@@ -47,6 +49,7 @@ func shuffle():
 
 	emit_signal("shuffle_completed")
 	can_move = true
+	can_drag = true
 	shuffling = false
 	
 func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25, trail : bool = true) -> void:
@@ -66,13 +69,14 @@ func _switch_cells(cell_one, cell_two):
 	set_cellv(cell_two, temp)
 	
 func move_tile(dir: Vector2) -> void:
-	if ! can_move:
+	if !can_move:
 		return
 	var cell = _blank_coords - dir
 	if !get_used_cells().has(cell):
 		return
 		
 	can_move = false
+	can_drag = false
 	switch(cell, _blank_coords, 0.25, true)
 	_blank_coords = cell
 
@@ -87,21 +91,7 @@ func can_move_cell(cell):
 func map_cell(coords : Vector2, tile : Node2D):
 	_cell_mappings[coords] = tile
 
-#func find_blank_neighbour(cell : Vector2):
-#	for dir in _directions:
-#		var neighbour = cell + dir
-#		if get_cellv(neighbour) == 0:
-#			return neighbour
-#	return
 
-#func get_valid_neighbours(cell : Vector2) -> Array:
-#	var neighbours = []
-#	for dir in _directions:
-#		var neighbour = cell + dir
-#		if neighbour in get_used_cells():
-#			neighbours.push_back(neighbour)
-#	return neighbours
-			
 			
 func find_blank_tile():
 	for i in range(_size):
