@@ -12,6 +12,7 @@ onready var frame = $Pivot/TileSprite/Frame
 var index : int
 var initial_index : int
 var initial_scale : Vector2
+var size : int
 
 signal rotation_finished
 signal move_finished
@@ -31,26 +32,31 @@ func set_label(value: String, w : int) -> void:
 	label.rect_size.x = label.rect_size.y
 	
 func setup(image : Texture, grid_size: int, x: int, y: int) -> int:
-	var w = image.get_width() / grid_size
-	var h = image.get_height() / grid_size
+	var w = image.region.size.x / grid_size
+	var h = image.region.size.y / grid_size
+	var stretch_ratio = 960.0 / image.region.size.x
 	
+	size = grid_size
 	sprite.texture = image
 	sprite.region_rect = Rect2(x * w, y * h, w, h)
+
 	index = y * grid_size + x + 1
 	if index == grid_size * grid_size:
 		index = 0
-	w *= 960.0 / image.get_width()
-	h *= 960.0 / image.get_width()
-	
+
 	label.get("custom_fonts/font").set_size(clamp(96 / Globals.GRID_SIZE, 12, 24))
 	call_deferred("set_label", str(index), w)
-	
-	sprite.scale *= 960.0 / image.get_width()
+
+	sprite.scale *= stretch_ratio
+	frame.scale *= w / 300
 	initial_scale = sprite.scale
-	frame.scale *= w / 300.0 / sprite.scale.x
+
+	w *= stretch_ratio
+	h *= stretch_ratio
 
 	pivot.position = Vector2(w / 2 + Globals.GAP, h / 2 + Globals.GAP)
 	position = Vector2(x * (w + Globals.GAP), y * (h + Globals.GAP))
+	
 	initial_index = index
 	return index
 
@@ -64,7 +70,7 @@ func move(pos, speed, trail : bool = false):
 			move_child(t, 0)
 			t.direction = (position - pos).normalized()
 			t.position = pivot.position
-			t.emission_rect_extents = 0.8 * Vector2(sprite.region_rect.size.x * 0.5 * sprite.scale.x, sprite.region_rect.size.x * 0.5 * sprite.scale.x)
+			t.emission_rect_extents = 0.8 * Vector2(960.0 / size * 0.5, 960.0 / size * 0.5)
 			t.scale_amount = 0.03 - 0.0025 * Globals.GRID_SIZE
 			t.amount -= Globals.GRID_SIZE
 			t.emitting = true

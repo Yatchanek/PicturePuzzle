@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://assets/misc/frame_big.png" type="Texture" id=1]
+[ext_resource path="res://assets/misc/border.png" type="Texture" id=2]
+[ext_resource path="res://assets/misc/tile_shader.tres" type="Shader" id=3]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/x = null
+shader_param/y = null
+shader_param/size = 4.0
+shader_param/original_x = null
+shader_param/original_y = null
+shader_param/shrink_x = null
+shader_param/shrink_y = null
+shader_param/frame = ExtResource( 1 )
+shader_param/border = ExtResource( 2 )

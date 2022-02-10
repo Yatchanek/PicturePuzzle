@@ -161,6 +161,9 @@ func _on_BuiltInPictureButton_toggled(button_pressed):
 func _on_CustomPictureButton_toggled(button_pressed):
 	Globals.set_custom_images_usage(button_pressed)
 	built_in_image_button.disabled = !button_pressed
+	if !button_pressed and !built_in_image_button.pressed:
+		built_in_image_button.pressed = true
+		Globals.set_built_in_images_usage(true)
 	
 func _on_FullscreenModeButton_toggled(button_pressed):
 	OS.window_fullscreen = button_pressed

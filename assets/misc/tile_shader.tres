@@ -1,0 +1,27 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform sampler2D frame;
+uniform sampler2D border;
+
+uniform float x;
+uniform float y;
+uniform float size;
+uniform float original_x;
+uniform float original_y;
+uniform float shrink_x;
+uniform float shrink_y;
+
+void fragment() {
+	vec4 border_color = texture(border, UV * vec2(original_x / shrink_x, original_y / shrink_y));
+	vec4 color = texture(TEXTURE, UV / size + vec2(x / size, y / size));
+	color.a -= texture(frame, UV * vec2(original_x / shrink_x, original_y / shrink_y)).a;
+
+	if (border_color.a > 0.0) {
+				color.rgba = border_color.rgba;
+	}
+	
+	COLOR = color;
+} "

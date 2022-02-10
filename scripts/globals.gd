@@ -9,7 +9,8 @@ var default_pictures =[
 "res://assets/pictures/picture_07.jpg", "res://assets/pictures/picture_08.jpg",
 "res://assets/pictures/picture_09.jpg", "res://assets/pictures/picture_10.jpg",
 "res://assets/pictures/picture_11.jpg", "res://assets/pictures/picture_12.jpg",
-"res://assets/pictures/picture_13.jpg"
+"res://assets/pictures/picture_13.jpg", "res://assets/pictures/picture_15.jpg",
+"res://assets/pictures/picture_15.jpg"
 ]
 var custom_images = []
 
@@ -18,7 +19,7 @@ var captions = [
 	"City Hall in Poznan, Poland", "Pansy flower", "\"Great Wave off Kanagawa\" \nby Katsushika Hokusai, ca. 1830",
 	"Fokker Dr.I", "Freshwater fish tank", "Pearl gourami", "Ancistrus fish",
 	"\"Union of Lublin\" by Jan Matejko, 1869 ", "\"Battle of Grunwald\" by Jan Matejko, 1878",
-	"\"The Scream\" by Edvard Munch, 1893"
+	"\"The Scream\" by Edvard Munch, 1893", "Betta splendens", "Black tetra"
 ]
 
 var display_hints = true

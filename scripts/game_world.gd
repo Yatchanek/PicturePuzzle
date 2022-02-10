@@ -50,7 +50,7 @@ func _unhandled_input(event):
 				set_process(true)			
 		if event.scancode == KEY_ESCAPE:
 			if hud.title_screen.visible:
-				if !OS.has.feature("HTML5"):
+				if !OS.has_feature("HTML5"):
 					get_tree().quit()
 			elif grid.can_move:
 				hud.return_to_menu()
@@ -155,7 +155,6 @@ func load_picture(failed_load : bool = false):
 			else:
 				img = load_custom_image()
 
-	
 	if img != null:
 		prepare_picture(img)
 	else:
@@ -188,7 +187,10 @@ func load_default_image():
 		previous_pictures.pop_front()
 	var img = load(current_picture)
 	info_label.text = Globals.captions[Globals.default_pictures.find(current_picture)]
-	return img
+	var tex = AtlasTexture.new()
+	tex.atlas = img
+	tex.region = Rect2(0, 0, 1024, 1024)
+	return tex
 	
 func load_custom_image():
 	var attempts = 0
@@ -236,10 +238,10 @@ func create_tiles(image : Texture, grid_size : int):
 
 	for i in range(grid_size):
 		for j in range(grid_size):
-			var img = image.duplicate()
 			var tile = tile_scene.instance()
 			picture_container.add_child(tile)
-			var index = tile.setup(img, grid_size, i, j)
+
+			var index = tile.setup(image, grid_size, i, j)
 			if index == 0:
 				tile.connect("move_finished", self, "_on_Tile_move_finished")
 			else:
