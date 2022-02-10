@@ -7,7 +7,7 @@ onready var pivot = $Pivot
 onready var tween = $Tween
 onready var label = $Label
 onready var frame = $Pivot/TileSprite/Frame
-onready var border = $Pivot/TileSprite/Border
+
 
 var index : int
 var initial_index : int
@@ -48,7 +48,6 @@ func setup(image : Texture, grid_size: int, x: int, y: int) -> int:
 	sprite.scale *= 960.0 / image.get_width()
 	initial_scale = sprite.scale
 	frame.scale *= w / 300.0 / sprite.scale.x
-	border.scale = frame.scale
 
 	pivot.position = Vector2(w / 2 + Globals.GAP, h / 2 + Globals.GAP)
 	position = Vector2(x * (w + Globals.GAP), y * (h + Globals.GAP))

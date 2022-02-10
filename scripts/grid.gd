@@ -6,19 +6,24 @@ var _size : int
 signal shuffle_completed
 
 var _directions : Array
-var _cell_mappings: Dictionary
-
+var _cell_mappings: Dictionary = {}
+var _blank_coords : Vector2
+var can_move : bool
+var shuffling : bool
 
 func init(size):
 	_size = size
-	_cell_mappings = {}
+	_blank_coords = Vector2(_size - 1, _size - 1)
 	clear()
 
 func _ready():
 	_directions = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
+	shuffling = false
 	
-
+	
 func shuffle():
+	can_move = false
+	shuffling = true
 	randomize()
 	for i in range (_size * _size - 1):
 		var j = i + randi() % (_size * _size - i - 1)
@@ -35,41 +40,68 @@ func shuffle():
 	if !is_solvable():
 		var a = Vector2(randi() % _size, randi() % _size)
 		var b = Vector2(randi() % _size, randi() % _size)
-		while (a.x == b.x and a.y == b.y) or _cell_mappings[a].index == 0 or _cell_mappings[b].index == 0:
+		while a == b or a == _blank_coords or b == _blank_coords:
 			a = Vector2(randi() % _size, randi() % _size)
 			b = Vector2(randi() % _size, randi() % _size)
 		switch(a, b, 0, false)
-		
+
 	emit_signal("shuffle_completed")
+	can_move = true
+	shuffling = false
 	
 func switch(cell_one : Vector2, cell_two : Vector2, speed : float = 0.25, trail : bool = true) -> void:
 	var temp = _cell_mappings[cell_one]
 	var pos = temp.position
-	
+
 	_cell_mappings[cell_one].move(_cell_mappings[cell_two].position, speed, trail)
 	_cell_mappings[cell_two].move(pos, speed)
 	_cell_mappings[cell_one] = _cell_mappings[cell_two]
 	_cell_mappings[cell_two] = temp
+
+	_switch_cells(cell_one, cell_two)
 	
-	switch_cells(cell_one, cell_two)
+func _switch_cells(cell_one, cell_two):
+	var temp = get_cellv(cell_one)
+	set_cellv(cell_one, get_cellv(cell_two))
+	set_cellv(cell_two, temp)
+	
+func move_tile(dir: Vector2) -> void:
+	if ! can_move:
+		return
+	var cell = _blank_coords - dir
+	if !get_used_cells().has(cell):
+		return
+		
+	can_move = false
+	switch(cell, _blank_coords, 0.25, true)
+	_blank_coords = cell
+
+	
+func can_move_cell(cell):
+	for dir in _directions:
+		if cell + dir == _blank_coords:
+			return dir
+			break
+	return false
 
 func map_cell(coords : Vector2, tile : Node2D):
 	_cell_mappings[coords] = tile
 
-func find_blank_neighbour(cell : Vector2):
-	for dir in _directions:
-		var neighbour = cell + dir
-		if get_cellv(neighbour) == 0:
-			return neighbour
-	return
+#func find_blank_neighbour(cell : Vector2):
+#	for dir in _directions:
+#		var neighbour = cell + dir
+#		if get_cellv(neighbour) == 0:
+#			return neighbour
+#	return
 
-func get_valid_neighbours(cell : Vector2) -> Array:
-	var neighbours = []
-	for dir in _directions:
-		var neighbour = cell + dir
-		if neighbour in get_used_cells():
-			neighbours.push_back(neighbour)
-	return neighbours
+#func get_valid_neighbours(cell : Vector2) -> Array:
+#	var neighbours = []
+#	for dir in _directions:
+#		var neighbour = cell + dir
+#		if neighbour in get_used_cells():
+#			neighbours.push_back(neighbour)
+#	return neighbours
+			
 			
 func find_blank_tile():
 	for i in range(_size):
@@ -77,17 +109,12 @@ func find_blank_tile():
 			if get_cell(i, j) == 0:
 				return Vector2(i, j)
 
-func find_direction(blank_cell, cell):
-	var dir = _cell_mappings[blank_cell].position - _cell_mappings[cell].position
-	return dir.normalized()
-
-func switch_cells(cell_one, cell_two):
-	var temp = get_cellv(cell_one)
-	set_cellv(cell_one, get_cellv(cell_two))
-	set_cellv(cell_two, temp)
 
 func rotate(cell):
+	if !can_move:
+		return
 	_cell_mappings[cell].rotate_self()
+
 
 func check_for_win() -> bool:
 	for i in range(_size):
@@ -106,7 +133,7 @@ func is_solvable() -> bool:
 		return !(inv_count & 1)
 	
 	else:
-		var blank_pos_y = _size - int(find_blank_tile().y)
+		var blank_pos_y = _size - int(_blank_coords.y)
 		if blank_pos_y & 1:
 			return !(inv_count & 1)
 		else:

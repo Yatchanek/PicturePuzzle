@@ -9,11 +9,12 @@ var default_pictures =[
 "res://assets/pictures/picture_07.jpg", "res://assets/pictures/picture_08.jpg",
 "res://assets/pictures/picture_09.jpg", "res://assets/pictures/picture_10.jpg",
 "res://assets/pictures/picture_11.jpg", "res://assets/pictures/picture_12.jpg",
+"res://assets/pictures/picture_13.jpg"
 ]
 var custom_images = []
 
 var captions = [
-	"Statue of Nio, Japan", "Waterfall in Japan", "\"Mona Lisa\" by Leonardo da Vinci, ca. 1503-1506",
+	"Statue of Nio, Japan", "Waterfall in Japan", "\"Mona Lisa\" by Leonardo da Vinci,\nca. 1503-1506",
 	"City Hall in Poznan, Poland", "Pansy flower", "\"Great Wave off Kanagawa\" \nby Katsushika Hokusai, ca. 1830",
 	"Fokker Dr.I", "Freshwater fish tank", "Pearl gourami", "Ancistrus fish",
 	"\"Union of Lublin\" by Jan Matejko, 1869 ", "\"Battle of Grunwald\" by Jan Matejko, 1878",
@@ -32,6 +33,7 @@ var use_built_in_images = true
 signal start_game
 signal reference_display_toggled
 signal toggle_labels
+
 
 func _ready():
 	var f = File.new()

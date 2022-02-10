@@ -6,7 +6,8 @@
 
 [node name="ReferenceControl" type="VBoxContainer"]
 anchor_bottom = 1.0
-margin_right = 400.0
+margin_top = 75.0
+margin_right = 480.0
 mouse_filter = 2
 alignment = 1
 __meta__ = {
@@ -14,9 +15,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_top = 253.0
+margin_top = 215.0
 margin_right = 480.0
-margin_bottom = 302.0
+margin_bottom = 264.0
 custom_fonts/font = ExtResource( 1 )
 text = "Target picture"
 align = 1
@@ -25,9 +26,9 @@ __meta__ = {
 }
 
 [node name="Reference" type="TextureRect" parent="."]
-margin_top = 306.0
+margin_top = 268.0
 margin_right = 480.0
-margin_bottom = 786.0
+margin_bottom = 748.0
 rect_min_size = Vector2( 480, 480 )
 mouse_filter = 2
 expand = true
@@ -39,9 +40,9 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="InfoLabel" type="Label" parent="."]
-margin_top = 790.0
+margin_top = 752.0
 margin_right = 480.0
-margin_bottom = 827.0
+margin_bottom = 789.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
 text = "Battle of Grunwald by Jan Matejko"

@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/tile.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Kanit-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/misc/frame_2.png" type="Texture" id=3]
-[ext_resource path="res://assets/misc/border.png" type="Texture" id=4]
 
 [sub_resource type="CanvasItemMaterial" id=3]
 
@@ -35,13 +34,8 @@ light_mask = 2
 region_enabled = true
 
 [node name="Frame" type="Sprite" parent="Pivot/TileSprite"]
-modulate = Color( 0.243137, 0.243137, 0.243137, 0.588235 )
 material = SubResource( 3 )
 texture = ExtResource( 3 )
-
-[node name="Border" type="Sprite" parent="Pivot/TileSprite"]
-modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
-texture = ExtResource( 4 )
 
 [node name="Label" type="Label" parent="."]
 margin_bottom = 3.0

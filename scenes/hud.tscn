@@ -21,7 +21,7 @@
 [ext_resource path="res://assets/ui/title_screen_button_normal.tres" type="StyleBox" id=19]
 [ext_resource path="res://assets/ui/title_screen_button_disabled.tres" type="StyleBox" id=20]
 [ext_resource path="res://scenes/tile_spawner.tscn" type="PackedScene" id=21]
-[ext_resource path="res://assets/misc/frame_2.png" type="Texture" id=22]
+[ext_resource path="res://assets/misc/frame_small.png" type="Texture" id=22]
 
 [sub_resource type="DynamicFont" id=3]
 size = 100
@@ -74,6 +74,7 @@ __meta__ = {
 [node name="ReferenceControl" parent="UIControl/ReferenceContainer" instance=ExtResource( 14 )]
 anchor_bottom = 0.0
 margin_left = 80.0
+margin_top = 0.0
 margin_right = 560.0
 margin_bottom = 1080.0
 
@@ -442,15 +443,16 @@ __meta__ = {
 }
 
 [node name="Settings" type="Popup" parent="UIControl"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -500.0
-margin_top = -350.0
+margin_top = -375.0
 margin_right = 500.0
-margin_bottom = 350.0
-rect_min_size = Vector2( 1000, 700 )
+margin_bottom = 375.0
+rect_min_size = Vector2( 1000, 750 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -487,8 +489,8 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 980.0
-margin_bottom = 633.0
-custom_constants/vseparation = 15
+margin_bottom = 683.0
+custom_constants/vseparation = 20
 columns = 2
 
 [node name="GridSizeLabel2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
@@ -538,99 +540,99 @@ __meta__ = {
 }
 
 [node name="HintDisplayLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 79.0
+margin_top = 84.0
 margin_right = 476.0
-margin_bottom = 149.0
+margin_bottom = 154.0
 rect_min_size = Vector2( 0, 70 )
 custom_fonts/font = ExtResource( 1 )
 text = "Display number hints"
 
 [node name="HintDisplayButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 890.0
-margin_top = 79.0
+margin_top = 84.0
 margin_right = 960.0
-margin_bottom = 149.0
+margin_bottom = 154.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 
 [node name="ReferenceDisplayLabel2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 164.0
+margin_top = 174.0
 margin_right = 476.0
-margin_bottom = 228.0
+margin_bottom = 238.0
 custom_fonts/font = ExtResource( 1 )
 text = "Display reference picture"
 
 [node name="ReferenceDisplayButton2" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 890.0
-margin_top = 164.0
+margin_top = 174.0
 margin_right = 960.0
-margin_bottom = 228.0
+margin_bottom = 238.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 
 [node name="RotationLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 243.0
+margin_top = 258.0
 margin_right = 476.0
-margin_bottom = 307.0
+margin_bottom = 322.0
 custom_fonts/font = ExtResource( 1 )
 text = "Enable tile rotation"
 
 [node name="RotationButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 890.0
-margin_top = 243.0
+margin_top = 258.0
 margin_right = 960.0
-margin_bottom = 307.0
+margin_bottom = 322.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 
 [node name="BuiltInPictureLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 322.0
+margin_top = 342.0
 margin_right = 476.0
-margin_bottom = 386.0
+margin_bottom = 406.0
 custom_fonts/font = ExtResource( 1 )
 text = "Use built-in images"
 
 [node name="BuiltInPictureButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 890.0
-margin_top = 322.0
+margin_top = 342.0
 margin_right = 960.0
-margin_bottom = 386.0
+margin_bottom = 406.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 
 [node name="CustomPictureLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 401.0
+margin_top = 426.0
 margin_right = 476.0
-margin_bottom = 465.0
+margin_bottom = 490.0
 custom_fonts/font = ExtResource( 1 )
 text = "Use custom images"
 
 [node name="CustomPictureButton" type="CheckButton" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 890.0
-margin_top = 401.0
+margin_top = 426.0
 margin_right = 960.0
-margin_bottom = 465.0
+margin_bottom = 490.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 
 [node name="WarningLabel" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 480.0
+margin_top = 510.0
 margin_right = 476.0
-margin_bottom = 508.0
+margin_bottom = 538.0
 custom_fonts/font = ExtResource( 15 )
 
 [node name="Blank" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
 margin_left = 960.0
-margin_top = 480.0
+margin_top = 510.0
 margin_right = 960.0
-margin_bottom = 508.0
+margin_bottom = 538.0
 size_flags_horizontal = 8
 custom_fonts/font = ExtResource( 15 )
 
 [node name="WarningLabel2" type="Label" parent="UIControl/Settings/TabContainer/Gameplay/MarginContainer/GridContainer"]
-margin_top = 523.0
+margin_top = 558.0
 margin_right = 476.0
-margin_bottom = 551.0
+margin_bottom = 586.0
 custom_fonts/font = ExtResource( 15 )
 
 [node name="Button" type="Button" parent="UIControl/Settings/TabContainer/Gameplay"]
@@ -670,7 +672,7 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 980.0
-margin_bottom = 633.0
+margin_bottom = 683.0
 custom_constants/vseparation = 20
 columns = 2
 
@@ -725,7 +727,7 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 980.0
-margin_bottom = 633.0
+margin_bottom = 683.0
 custom_constants/vseparation = 20
 columns = 2
 
@@ -875,6 +877,7 @@ __meta__ = {
 }
 
 [node name="Instructions" type="Popup" parent="UIControl"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -952,19 +955,16 @@ margin_bottom = 486.0
 custom_fonts/font = ExtResource( 12 )
 text = "The aim of the game is simple - rearange the tiles to assemble the picture. Use the reference and/or number hints to aid you (you can turn them off to make the chalenge harder).
 
-Left click/tap on the tile / swipe - move a tile
+Arrow keys/WASD/Left click/tap on the tile/swipe - move a tile
 Hold mouse button/press & hold on the tile - rotate a tile
  (if rotations are enabled)"
 align = 3
 autowrap = true
 
-[node name="TimeLabelContainer" type="MarginContainer" parent="UIControl"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -349.0
-margin_top = -103.0
+[node name="StatsContainer" type="MarginContainer" parent="UIControl"]
+visible = false
+margin_right = 160.0
+margin_bottom = 172.0
 mouse_filter = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -976,16 +976,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TimeLabel" type="Label" parent="UIControl/TimeLabelContainer"]
-visible = false
-margin_left = 239.0
-margin_top = 34.0
-margin_right = 329.0
-margin_bottom = 83.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-custom_fonts/font = ExtResource( 12 )
-text = "00:00"
+[node name="HBoxContainer" type="VBoxContainer" parent="UIControl/StatsContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 140.0
+margin_bottom = 152.0
+
+[node name="TimeLabel" type="Label" parent="UIControl/StatsContainer/HBoxContainer"]
+margin_right = 90.0
+margin_bottom = 49.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+
+[node name="MoveCounterLabel" type="Label" parent="UIControl/StatsContainer/HBoxContainer"]
+margin_top = 53.0
+margin_right = 90.0
+margin_bottom = 102.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
 
 [node name="NextQuitButtonContainer" type="MarginContainer" parent="UIControl"]
 visible = false
@@ -1008,19 +1016,77 @@ custom_constants/separation = 50
 alignment = 1
 
 [node name="NextButton" type="Button" parent="UIControl/NextQuitButtonContainer/HBoxContainer" groups=["NextQuitButtons"]]
-margin_right = 174.0
+margin_left = 32.0
+margin_right = 206.0
 margin_bottom = 49.0
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 12 )
 text = "Next picture"
 
 [node name="QuitButton" type="Button" parent="UIControl/NextQuitButtonContainer/HBoxContainer" groups=["NextQuitButtons"]]
-margin_left = 224.0
-margin_right = 285.0
+margin_left = 256.0
+margin_right = 317.0
 margin_bottom = 49.0
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 12 )
 text = "Quit"
+
+[node name="ErrorPopup" type="Popup" parent="UIControl"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -150.0
+margin_right = 250.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 500, 300 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="UIControl/ErrorPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="UIControl/ErrorPopup/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 60
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UIControl/ErrorPopup/Panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 79.0
+margin_right = 480.0
+margin_bottom = 180.0
+custom_fonts/font = ExtResource( 12 )
+text = "Error loading custom image
+Loading built-in image instead"
+align = 1
+
+[node name="ErrorCloseButton" type="Button" parent="UIControl/ErrorPopup"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -21.0
+margin_top = -67.0
+margin_right = 21.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 12 )
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CustomPictures" type="Popup" parent="UIControl"]
 anchor_left = 0.5
@@ -1132,63 +1198,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ErrorPopup" type="Popup" parent="UIControl"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -250.0
-margin_top = -150.0
-margin_right = 250.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 500, 300 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="UIControl/ErrorPopup"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="UIControl/ErrorPopup/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 60
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="UIControl/ErrorPopup/Panel/MarginContainer"]
-margin_left = 20.0
-margin_top = 79.0
-margin_right = 480.0
-margin_bottom = 180.0
-custom_fonts/font = ExtResource( 12 )
-text = "Error loading custom image
-Loading built-in image instead"
-align = 1
-
-[node name="ErrorCloseButton" type="Button" parent="UIControl/ErrorPopup"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -21.0
-margin_top = -67.0
-margin_right = 21.0
-mouse_default_cursor_shape = 2
-custom_fonts/font = ExtResource( 12 )
-text = "OK"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Tween" type="Tween" parent="UIControl"]
 
 [node name="TileSpawner" parent="UIControl" instance=ExtResource( 21 )]
@@ -1217,7 +1226,7 @@ position = Vector2( 960, 540 )
 [connection signal="pressed" from="UIControl/Instructions/Panel/InstructionsOKButton" to="UIControl" method="_on_InstructionsOKButton_pressed"]
 [connection signal="pressed" from="UIControl/NextQuitButtonContainer/HBoxContainer/NextButton" to="UIControl" method="_on_NextButton_pressed"]
 [connection signal="pressed" from="UIControl/NextQuitButtonContainer/HBoxContainer/QuitButton" to="UIControl" method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="UIControl/ErrorPopup/ErrorCloseButton" to="UIControl" method="_on_ErrorCloseButton_pressed"]
 [connection signal="pressed" from="UIControl/CustomPictures/Panel/HBoxContainer/AddPicturesButton" to="UIControl" method="_on_AddPicturesButton_pressed"]
 [connection signal="pressed" from="UIControl/CustomPictures/Panel/HBoxContainer/PicturesPanelCloseButton" to="UIControl" method="_on_PicturesPanelCloseButton_pressed"]
 [connection signal="files_selected" from="UIControl/CustomPictures/Panel/FileDialog" to="UIControl" method="_on_FileDialog_files_selected"]
-[connection signal="pressed" from="UIControl/ErrorPopup/ErrorCloseButton" to="UIControl" method="_on_ErrorCloseButton_pressed"]

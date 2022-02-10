@@ -8,5 +8,4 @@ region_enabled = true
 script = ExtResource( 2 )
 
 [node name="Frame" type="Sprite" parent="."]
-modulate = Color( 0, 0, 0, 0.392157 )
 texture = ExtResource( 1 )

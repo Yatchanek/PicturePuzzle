@@ -11,6 +11,7 @@ onready var reference_container = $ReferenceContainer
 onready var instructions_panel = $Instructions
 onready var file_dialog = $CustomPictures/Panel/FileDialog
 onready var error_popup = $ErrorPopup
+onready var stats_container = $StatsContainer
 
 onready var grid_size_slider = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HBoxContainer/GridSizeSlider
 onready var hint_display_button = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/HintDisplayButton
@@ -28,7 +29,8 @@ onready var quit_game_button = $TitleScreen/MarginContainer/VBoxContainer/QuitGa
 
 onready var no_images_label = $CustomPictures/Panel/MarginContainer/NoImageLabel
 onready var info_label = $ReferenceContainer/ReferenceControl/InfoLabel
-onready var time_label = $TimeLabelContainer/TimeLabel
+onready var time_label = $StatsContainer/HBoxContainer/TimeLabel
+onready var move_counter_label = $StatsContainer/HBoxContainer/MoveCounterLabel
 onready var warning_label = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/WarningLabel
 onready var warning_label2 = $Settings/TabContainer/Gameplay/MarginContainer/GridContainer/WarningLabel2
 
@@ -48,16 +50,21 @@ func _ready():
 		
 
 func update_time_label(minutes, seconds):
-	time_label.text = "%02d:%02d" % [minutes, seconds]
+	time_label.text = "Time: %02d:%02d" % [minutes, seconds]
 
-func reset_time_label():
-	time_label.text = "00:00"
-	
+func update_move_count(value):
+	move_counter_label.text = "Moves: %s" % str(value)
+
+func reset_stats():
+	time_label.text = "Time: 00:00"
+	move_counter_label.text = "Moves: 0"
+
+
 func return_to_menu():
-	reset_time_label()
+	reset_stats()
 	reference_container.hide()
 	next_quit_buttons.hide()
-	time_label.hide()
+	stats_container.hide()
 	title_screen.show()
 	spawner.show()
 	spawner.spawn()
@@ -146,6 +153,15 @@ func _on_RotationButton_toggled(button_pressed):
 		warning_label2.text = "*Rotations will be %s from the next game." % status
 
 
+#Toggle built-in images
+func _on_BuiltInPictureButton_toggled(button_pressed):
+	Globals.set_built_in_images_usage(button_pressed)
+
+#Toggle custom images
+func _on_CustomPictureButton_toggled(button_pressed):
+	Globals.set_custom_images_usage(button_pressed)
+	built_in_image_button.disabled = !button_pressed
+	
 func _on_FullscreenModeButton_toggled(button_pressed):
 	OS.window_fullscreen = button_pressed
 
@@ -175,6 +191,7 @@ func _on_QuitButton_pressed():
 	emit_signal("quit_to_menu")
 	next_quit_buttons.hide()
 	reference_container.hide()
+	stats_container.hide()
 	info_label.hide()
 	title_screen.show()
 
@@ -189,16 +206,6 @@ func _on_InstructionsButton_pressed():
 #Close instructions
 func _on_InstructionsOKButton_pressed():
 	instructions_panel.hide()
-
-#Toggle built-in images
-func _on_BuiltInPictureButton_toggled(button_pressed):
-	Globals.set_built_in_images_usage(button_pressed)
-
-#Toggle custom images
-func _on_CustomPictureButton_toggled(button_pressed):
-	Globals.set_custom_images_usage(button_pressed)
-	built_in_image_button.disabled = !button_pressed
-
 
 #Add filepaths to custom pictures
 func _on_FileDialog_files_selected(paths):
@@ -227,9 +234,14 @@ func _on_AddPicturesButton_pressed():
 #Close custom images panel
 func _on_PicturesPanelCloseButton_pressed():
 	custom_images_panel.hide()
+	for thumbnail in thumbnail_grid.get_children():
+		thumbnail.queue_free()
 
 #Close error popup
 func _on_ErrorCloseButton_pressed():
 	error_popup.hide()
+
+
+
 
 

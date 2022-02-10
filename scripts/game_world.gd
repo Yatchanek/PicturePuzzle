@@ -15,11 +15,12 @@ onready var firework_layer = $FireworkLayer
 onready var click_timer = $ClickTimer
 onready var error_popup =$HUD/UIControl/ErrorPopup
 
+
+
 signal game_ended
 signal game_started
 
-
-var can_move : bool
+var shuffling : bool
 var game_won : bool
 var can_drag : bool
 var press_and_hold : bool
@@ -30,83 +31,95 @@ var current_time : int
 var paused_time : int
 var restart_time : int
 var last_clicked_tile
-var blank
 var load_picture_attempts : int
 var repeat_threshold : int = 5
-
+var moves : int
+var dirs = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 
 
 func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.is_pressed():
-			if event.scancode == KEY_P:
-				if !hud.settings_panel.visible:
-					paused_time = current_time
-					set_process(false)
-					hud.settings_panel.popup()
-				else:
-					hud.settings_panel.hide()
-					restart_time = OS.get_unix_time()
-					set_process(true)			
-			if event.scancode == KEY_ESCAPE:
-				if hud.title_screen.visible:
-					if !OS.has.feature("HTML5"):
-						get_tree().quit()
-				elif can_move:
-					hud.return_to_menu()
-					set_process(false)
-					clear_board()
+	var dir
+	if event is InputEventKey and event.is_pressed():
+		if event.scancode == KEY_P:
+			if !hud.settings_panel.visible:
+				paused_time = current_time
+				set_process(false)
+				hud.settings_panel.popup()
+			else:
+				hud.settings_panel.hide()
+				restart_time = OS.get_unix_time()
+				set_process(true)			
+		if event.scancode == KEY_ESCAPE:
+			if hud.title_screen.visible:
+				if !OS.has.feature("HTML5"):
+					get_tree().quit()
+			elif grid.can_move:
+				hud.return_to_menu()
+				set_process(false)
+				clear_board()
+				
+		if event.scancode == KEY_T:
+			Globals.set_hints_display(!Globals.display_hints)
+			toggle_label_hints()
+		
+		if event.scancode == KEY_R:
+			Globals.set_reference_display(!Globals.display_reference)
+			toggle_reference_display()
+		
+		else:
+			match event.scancode:
+				KEY_UP, KEY_W:
+					dir = Vector2(0, -1)
+				KEY_DOWN, KEY_S:
+					dir = Vector2(0, 1)
+				KEY_RIGHT, KEY_D:
+					dir = Vector2(1, 0)
+				KEY_LEFT, KEY_A:
+					dir = Vector2(-1, 0)
+			if dir:
+				grid.move_tile(dir)
 		
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
-			if !can_move:
-				return
-				
 			var pos = picture_container.to_local(event.position)
 			last_clicked_tile = grid.world_to_map(pos)
 
 			if last_clicked_tile == null or !grid.get_used_cells().has(last_clicked_tile):
 				return
-			blank = grid.find_blank_neighbour(last_clicked_tile)
+
 			press_and_hold = false
 
 			click_timer.start()
 		else:
-			if !can_move:
-				return
 			click_timer.stop()
-			if !press_and_hold and last_clicked_tile != null and blank != null:
-				can_move = false
-				grid.switch(last_clicked_tile, blank)
+			if !press_and_hold and last_clicked_tile != null:
+				var valid_move = grid.can_move_cell(last_clicked_tile)
+				if valid_move:
+					grid.move_tile(valid_move)
 
 	if event is InputEventScreenDrag:
-		if !can_move or !can_drag:
+		if !can_drag or event.relative.length() < 10:
 			return
-		if event.relative.length() < 10:
-			return
-		var blank_tile = grid.find_blank_tile()
-		var neighbours = grid.get_valid_neighbours(blank_tile)
-		last_clicked_tile = null
-		blank = null
-		for neighbour in neighbours:
-			if event.relative.normalized().dot(grid.find_direction(blank_tile, neighbour)) > 0.8:
-				can_move = false
-				can_drag = false
-				grid.switch(neighbour, blank_tile)
-				return
 
+		last_clicked_tile = null
+		dir = event.relative.normalized()
+
+		for direction in dirs:
+			if dir.dot(direction) > 0.85 and grid.can_move_dir(direction):
+				can_drag = false
+				grid.move_tile(direction)
+				break
+		
 
 func _ready():
-	Globals.connect("start_game", self, "load_picture")
+	Globals.connect("start_game", self, "start_game")
 	Globals.connect("reference_display_toggled", self, "toggle_reference_display")
 	Globals.connect("toggle_labels", self, "toggle_label_hints")
 	hud.connect("next_picture", self, "_on_NextPictureButton_pressed")
 	hud.connect("quit_to_menu", self, "_on_QuitButton_pressed")
 	connect("game_started", Globals, "_on_Game_started")
 	connect("game_ended", Globals, "_on_Game_ended")
-	can_move = false
 	game_won = false
-	can_drag = false
 	load_picture_attempts = 0
 	set_process(false)
 
@@ -119,6 +132,9 @@ func update_time_label():
 	var seconds = current_time % 60
 	hud.update_time_label(minutes, seconds)
 	
+func start_game():
+	moves = 0
+	load_picture()		
 	
 func load_picture(failed_load : bool = false):
 	for tile in picture_container.get_children():
@@ -134,7 +150,7 @@ func load_picture(failed_load : bool = false):
 			img = load_default_image()
 		elif !Globals.use_built_in_images and Globals.use_custom_images:
 			img = load_custom_image()
-		else:
+		elif Globals.use_built_in_images and Globals.use_custom_images:
 			randomize()
 			if randf() < 0.5:
 				img = load_default_image()
@@ -145,8 +161,6 @@ func load_picture(failed_load : bool = false):
 	if img != null:
 		prepare_picture(img)
 	else:
-#		error_popup.popup()
-#		yield(error_popup, "hide")
 		load_picture(true)
 
 func prepare_picture(img):
@@ -157,8 +171,8 @@ func prepare_picture(img):
 		picture_container.position = Vector2((1920 - w - Globals.GRID_SIZE * Globals.GAP) / 2.0,  (1080 - h - Globals.GRID_SIZE * Globals.GAP) / 2.0)
 
 		next_quit_buttons.hide()
-		hud.reset_time_label()
-		hud.time_label.show()
+		hud.reset_stats()
+		hud.stats_container.show()
 		
 		if Globals.display_reference:
 			picture_container.position.x += 350
@@ -167,7 +181,6 @@ func prepare_picture(img):
 
 	
 func load_default_image():
-
 	randomize()
 	current_picture = Globals.default_pictures[randi() % Globals.default_pictures.size()]
 	while previous_pictures.has(current_picture):
@@ -244,6 +257,8 @@ func clear_board():
 		tile.queue_free()	
 
 func toggle_reference_display():
+	grid.can_move = false
+	can_drag = false
 	if Globals.display_reference:
 		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x + 350, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
@@ -255,6 +270,8 @@ func toggle_reference_display():
 		tween.interpolate_property(picture_container, "position:x", picture_container.position.x, picture_container.position.x - 350, 1, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		tween.start()
 		reference_container.hide()
+	yield(tween, "tween_completed")
+	grid.can_move = true
 
 func toggle_label_hints():
 	for tile in picture_container.get_children():
@@ -274,9 +291,13 @@ func launch_fireworks():
 		button.disabled = false
 	
 func _on_Tile_move_finished():
+	if grid.shuffling:
+		return
+	moves += 1
+	hud.update_move_count(moves)
 	var win = grid.check_for_win()
 	if !win:
-		can_move = true
+		grid.can_move = true
 		$DragDelayTimer.start()
 	else:
 		game_won = true
@@ -289,14 +310,13 @@ func _on_Tile_move_finished():
 	
 	
 func _on_Shuffle_completed():
+	can_drag = true
 	game_won = false
 	start_time = OS.get_unix_time()
 
 	restart_time = start_time
 	paused_time = 0
 	set_process(true)
-	can_move = true
-	can_drag = true
 
 func _on_Settings_popup_hide():
 	if Globals.game_in_progress:
@@ -318,17 +338,19 @@ func _on_QuitButton_pressed():
 	clear_board()
 
 
+
+			
+			
 func _on_ClickTimer_timeout():
 	press_and_hold = true
-	if !can_move:
+	if last_clicked_tile == null:
 		return
-	if last_clicked_tile == null or blank == null:
-		return
-	can_move = false
 	if Globals.rotations_enabled:
 		grid.rotate(last_clicked_tile)
 	else:
-		grid.switch(last_clicked_tile, blank)
+		var valid_move = grid.can_move_cell(last_clicked_tile)
+		if valid_move:
+			grid.move_tile(valid_move)
 
 
 func _on_DragDelayTimer_timeout():
